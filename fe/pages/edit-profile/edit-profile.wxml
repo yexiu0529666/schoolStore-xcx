@@ -1,0 +1,45 @@
+<!--pages/edit-profile/edit-profile.wxml-->
+<view class="container">
+  <view class="edit-header">
+    <view class="title">编辑个人资料</view>
+  </view>
+  
+  <view class="edit-form">
+    <!-- 头像 -->
+    <view class="avatar-section">
+      <image class="avatar" src="{{avatar || '/static/images/default-avatar.svg'}}" mode="aspectFill"></image>
+      <view class="avatar-btn" bindtap="chooseAvatar">更换头像</view>
+    </view>
+    
+    <!-- 基本信息 -->
+    <view class="form-group">
+      <view class="form-item">
+        <view class="label">昵称</view>
+        <input class="input" type="text" placeholder="请输入昵称" value="{{nickname}}" bindinput="inputNickname" maxlength="20" />
+      </view>
+      
+      <view class="form-item">
+        <view class="label">性别</view>
+        <radio-group class="radio-group" bindchange="selectGender">
+          <label class="radio-label">
+            <radio value="男" checked="{{gender === '男'}}" />
+            <text>男</text>
+          </label>
+          <label class="radio-label">
+            <radio value="女" checked="{{gender === '女'}}" />
+            <text>女</text>
+          </label>
+          <label class="radio-label">
+            <radio value="保密" checked="{{gender === '保密'}}" />
+            <text>保密</text>
+          </label>
+        </radio-group>
+      </view>
+    </view>
+    
+    <!-- 保存按钮 -->
+    <view class="form-btn">
+      <button class="save-btn" bindtap="saveProfile">保存</button>
+    </view>
+  </view>
+</view> 

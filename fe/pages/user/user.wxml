@@ -1,0 +1,107 @@
+<!--pages/user/user.wxml-->
+<view class="user-container">
+  <!-- 用户信息 -->
+  <view class="user-header">
+    <block wx:if="{{userInfo}}">
+      <view class="user-info">
+        <image class="avatar" src="{{userInfo.avatar || '/static/images/default-avatar.svg'}}" mode="aspectFill"></image>
+        <view class="user-detail">
+          <view class="nickname">{{userInfo.nickname || '用户' + userInfo.id}}</view>
+          <view class="user-id">ID: {{userInfo.id}}</view>
+          <view class="edit-btn" bindtap="goEditProfile">编辑资料</view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="user-info">
+        <image class="avatar" src="/static/images/default-avatar.svg" mode="aspectFill"></image>
+        <view class="user-detail">
+          <view class="nickname">未登录</view>
+          <view class="login-btn" bindtap="goLogin">点击登录</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 我的订单 -->
+  <view class="order-panel">
+    <view class="panel-header">
+      <view class="header-title">我的订单</view>
+      <view class="header-more" bindtap="goOrderList" data-type="">查看全部 ></view>
+    </view>
+    <view class="order-items">
+      <view class="order-item" bindtap="goOrderList" data-type="pending_payment">
+        <image class="order-icon" src="/static/images/pending-payment.svg" mode="aspectFit"></image>
+        <view class="order-text">待付款</view>
+        <view class="badge" wx:if="{{orderCount.pending > 0}}">{{orderCount.pending}}</view>
+      </view>
+      <view class="order-item" bindtap="goOrderList" data-type="pending_shipment">
+        <image class="order-icon" src="/static/images/pending-shipment.svg" mode="aspectFit"></image>
+        <view class="order-text">待发货</view>
+        <view class="badge" wx:if="{{orderCount.paid > 0}}">{{orderCount.paid}}</view>
+      </view>
+      <view class="order-item" bindtap="goOrderList" data-type="pending_receipt">
+        <image class="order-icon" src="/static/images/pending-receipt.svg" mode="aspectFit"></image>
+        <view class="order-text">待收货</view>
+        <view class="badge" wx:if="{{orderCount.shipped > 0}}">{{orderCount.shipped}}</view>
+      </view>
+      <view class="order-item" bindtap="goOrderList" data-type="completed">
+        <image class="order-icon" src="/static/images/completed.svg" mode="aspectFit"></image>
+        <view class="order-text">已完成</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商家入口 -->
+  <view class="merchant-entry" bindtap="goMerchant" wx:if="{{userInfo && userInfo.is_merchant}}">
+    <view class="merchant-icon">
+      <image src="/static/images/merchant.png" mode="aspectFit"></image>
+    </view>
+    <view class="merchant-info">
+      <view class="merchant-title">商家中心</view>
+      <view class="merchant-desc">管理您的商品和订单</view>
+    </view>
+    <view class="merchant-btn">进入</view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-panel">
+    <view class="menu-item" bindtap="goCoupon">
+      <image class="menu-icon" src="/static/images/coupon.svg" mode="aspectFit"></image>
+      <view class="menu-text">我的优惠券</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="goAddress">
+      <image class="menu-icon" src="/static/images/address.svg" mode="aspectFit"></image>
+      <view class="menu-text">收货地址</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="goFavorite">
+      <image class="menu-icon" src="/static/images/favorite.svg" mode="aspectFit"></image>
+      <view class="menu-text">我的收藏</view>
+      <view class="menu-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 系统设置 -->
+  <view class="menu-panel">
+    <view class="menu-item" bindtap="contactCustomerService">
+      <image class="menu-icon" src="/static/images/customer-service.svg" mode="aspectFit"></image>
+      <view class="menu-text">联系客服</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="aboutUs">
+      <image class="menu-icon" src="/static/images/about.svg" mode="aspectFit"></image>
+      <view class="menu-text">关于我们</view>
+      <view class="menu-arrow">></view>
+    </view>
+    <view class="menu-item" bindtap="clearCache">
+      <image class="menu-icon" src="/static/images/clear.svg" mode="aspectFit"></image>
+      <view class="menu-text">清除缓存</view>
+      <view class="menu-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="logout" wx:if="{{userInfo}}">退出登录</view>
+</view>

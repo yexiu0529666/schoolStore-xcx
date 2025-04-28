@@ -1,0 +1,86 @@
+<!--pages/merchant/add-coupon/add-coupon.wxml-->
+<view class="container">
+  <view class="form-container">
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <view class="section-title">基本信息</view>
+      
+      <view class="form-item">
+        <view class="form-label">优惠券标题</view>
+        <input class="form-input" value="{{formData.title}}" placeholder="请输入优惠券标题" data-field="title" bindinput="onInput" />
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">优惠券描述</view>
+        <textarea class="form-textarea" value="{{formData.description}}" placeholder="请输入优惠券描述（可选）" data-field="description" bindinput="onInput"></textarea>
+      </view>
+    </view>
+    
+    <!-- 优惠信息 -->
+    <view class="form-section">
+      <view class="section-title">优惠信息</view>
+      
+      <view class="form-item">
+        <view class="form-label">优惠金额 (元)</view>
+        <input class="form-input" type="digit" value="{{formData.amount}}" placeholder="请输入优惠金额" data-field="amount" bindinput="onInput" />
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">最低消费 (元)</view>
+        <input class="form-input" type="digit" value="{{formData.min_spend}}" placeholder="0表示无门槛" data-field="min_spend" bindinput="onInput" />
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">限制数量</view>
+        <input class="form-input" type="number" value="{{formData.quantity}}" placeholder="-1表示无限制" data-field="quantity" bindinput="onInput" />
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">适用分类</view>
+        <picker class="form-picker" range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategoryChange">
+          <view wx:if="{{formData.category_id}}" class="picker-text">
+            {{selectedCategoryName}}
+          </view>
+          <view wx:else class="picker-placeholder">全部分类</view>
+        </picker>
+      </view>
+    </view>
+    
+    <!-- 有效期 -->
+    <view class="form-section">
+      <view class="section-title">有效期</view>
+      
+      <view class="form-item">
+        <view class="form-label">开始日期</view>
+        <picker class="form-picker" mode="date" value="{{startDate}}" start="2022-01-01" end="2099-12-31" bindchange="onDateChange" data-field="start_date">
+          <view class="picker-text">{{startDate}}</view>
+        </picker>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">结束日期</view>
+        <picker class="form-picker" mode="date" value="{{endDate}}" start="2022-01-01" end="2099-12-31" bindchange="onDateChange" data-field="end_date">
+          <view class="picker-text">{{endDate}}</view>
+        </picker>
+      </view>
+    </view>
+    
+    <!-- 状态 -->
+    <view class="form-section">
+      <view class="section-title">状态设置</view>
+      
+      <view class="form-item status-switch">
+        <view class="form-label">启用状态</view>
+        <switch checked="{{formData.is_active}}" bindchange="toggleStatus" color="#07c160" />
+      </view>
+    </view>
+    
+    <!-- 提交按钮 -->
+    <view class="form-actions">
+      <button class="btn-cancel" bindtap="onBack">取消</button>
+      <button class="btn-submit" bindtap="submitForm" disabled="{{isSubmitting}}">
+        {{isEdit ? '保存修改' : '创建优惠券'}}
+      </button>
+    </view>
+  </view>
+</view>

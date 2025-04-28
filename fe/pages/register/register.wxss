@@ -1,0 +1,179 @@
+/* pages/register/register.wxss */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 40rpx;
+  background-color: #fff;
+}
+
+.register-header {
+  display: flex;
+  flex-direction: column;
+  padding: 60rpx 0;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.register-tabs {
+  display: flex;
+  margin-bottom: 40rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.tab {
+  padding: 20rpx 0;
+  margin-right: 60rpx;
+  font-size: 30rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab.active {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2rpx;
+  left: 0;
+  width: 100%;
+  height: 4rpx;
+  background-color: var(--primary-color);
+  border-radius: 2rpx;
+}
+
+.register-form {
+  flex: 1;
+  width: 100%;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 30rpx;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 20rpx;
+  transform: translateY(-50%);
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.input {
+  height: 100rpx;
+  background-color: #f8f8f8;
+  border-radius: 50rpx;
+  padding: 0 60rpx 0 80rpx;
+  font-size: 30rpx;
+}
+
+.code-group {
+  display: flex;
+}
+
+.code-input {
+  padding-right: 220rpx;
+}
+
+.code-btn {
+  position: absolute;
+  top: 50%;
+  right: 20rpx;
+  transform: translateY(-50%);
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 30rpx;
+  border-radius: 30rpx;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 26rpx;
+  z-index: 1;
+}
+
+.code-btn.disabled {
+  background-color: #cccccc;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 20rpx;
+  transform: translateY(-50%);
+  padding: 10rpx;
+}
+
+.eye-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.error-tip {
+  color: #ff4d4f;
+  font-size: 24rpx;
+  margin-bottom: 20rpx;
+  padding-left: 20rpx;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 6rpx;
+  margin-right: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox.checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkbox-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.agreement-text {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.link {
+  color: var(--primary-color);
+}
+
+.btn {
+  height: 90rpx;
+  font-size: 32rpx;
+}
+
+.back-login {
+  text-align: center;
+  margin-top: 30rpx;
+  color: var(--primary-color);
+  font-size: 28rpx;
+  padding: 20rpx 0;
+} 

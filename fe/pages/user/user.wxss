@@ -1,0 +1,239 @@
+/* pages/user/user.wxss */
+.user-container {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  padding-bottom: 30rpx;
+}
+
+/* 用户信息头部 */
+.user-header {
+  background-color: #f95555;
+  padding: 30rpx;
+  color: #fff;
+  position: relative;
+  height: 220rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 30rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+}
+
+.user-detail {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 36rpx;
+  margin-bottom: 10rpx;
+  font-weight: bold;
+}
+
+.user-id {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+.edit-btn {
+  font-size: 24rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 6rpx 20rpx;
+  border-radius: 30rpx;
+  margin-top: 10rpx;
+  display: inline-block;
+}
+
+.login-btn {
+  background-color: #fff;
+  color: #f95555;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+  padding: 14rpx 40rpx;
+  border-radius: 40rpx;
+  display: inline-block;
+}
+
+/* 订单导航 */
+.order-panel {
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin: -60rpx 20rpx 20rpx;
+  padding: 20rpx 0;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30rpx 20rpx;
+  border-bottom: 1rpx solid #f6f6f6;
+}
+
+.header-title {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.header-more {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.order-items {
+  display: flex;
+  padding: 30rpx 10rpx;
+}
+
+.order-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.order-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.order-text {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.badge {
+  position: absolute;
+  top: -10rpx;
+  right: 30rpx;
+  background-color: #f95555;
+  color: #fff;
+  font-size: 20rpx;
+  padding: 0 10rpx;
+  height: 32rpx;
+  min-width: 32rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 功能导航 */
+.menu-panel {
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin: 20rpx;
+  padding: 10rpx 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  position: relative;
+}
+
+.menu-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 30rpx;
+  right: 30rpx;
+  height: 1rpx;
+  background-color: #f6f6f6;
+}
+
+.menu-item:last-child::after {
+  display: none;
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 30rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* 注销按钮 */
+.logout-btn {
+  margin: 40rpx 20rpx;
+  background-color: #fff;
+  color: #f95555;
+  font-size: 28rpx;
+  padding: 20rpx 0;
+  border-radius: 12rpx;
+  text-align: center;
+}
+
+/* 商家入口 */
+.merchant-entry {
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin: 20rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.merchant-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 20rpx;
+  background-color: #f6f6f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.merchant-icon image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.merchant-info {
+  flex: 1;
+}
+
+.merchant-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 6rpx;
+}
+
+.merchant-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.merchant-btn {
+  background-color: #f95555;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+} 

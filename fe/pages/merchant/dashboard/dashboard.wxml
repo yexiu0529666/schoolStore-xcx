@@ -1,0 +1,128 @@
+<!--pages/merchant/dashboard/dashboard.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <view class="dashboard-content" wx:else>
+    <!-- 商家信息卡片 -->
+    <view class="merchant-card">
+      <view class="merchant-header">
+        <image class="merchant-avatar" src="{{merchantInfo.logo || '/static/images/logo.png'}}"></image>
+        <view class="merchant-info">
+          <view class="merchant-name">{{merchantInfo.shop_name || '我的商店'}}</view>
+          <view class="merchant-desc">{{merchantInfo.shop_desc || '暂无描述'}}</view>
+        </view>
+      </view>
+      <view class="merchant-stats">
+        <view class="stat-item">
+        </view>
+      </view>
+      <view class="merchant-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{stats.total_products || 0}}</text>
+          <text class="stat-label">商品数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{stats.total_orders || 0}}</text>
+          <text class="stat-label">订单数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{stats.total_customers || 0}}</text>
+          <text class="stat-label">客户数</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 统计概览 -->
+    <view class="stats-card">
+      <view class="card-header">
+        <text class="card-title">销售统计</text>
+        <view class="period-selector">
+          <view 
+            wx:for="{{periodOptions}}" 
+            wx:key="index" 
+            class="period-option {{currentPeriod === index ? 'active' : ''}}"
+            bindtap="switchPeriod"
+            data-index="{{index}}"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+      <view class="stats-body">
+        <view class="main-stat">
+          <view class="main-stat-value">¥{{stats.total_sales || '0.00'}}</view>
+          <view class="main-stat-label">销售额</view>
+        </view>
+        <view class="sub-stats">
+          <view class="sub-stat-item">
+            <view class="sub-stat-value">{{stats.total_orders || 0}}</view>
+            <view class="sub-stat-label">订单数</view>
+          </view>
+          <view class="sub-stat-item">
+            <view class="sub-stat-value">¥{{stats.average_order_value || '0.00'}}</view>
+            <view class="sub-stat-label">客单价</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 订单管理 -->
+    <view class="order-card">
+      <view class="card-header">
+        <text class="card-title">订单管理</text>
+        <view class="view-all" bindtap="navigateToOrders">查看全部</view>
+      </view>
+      <view class="order-status-grid">
+        <view class="order-status-item" bindtap="navigateToOrders" data-status="pending_payment">
+          <view class="status-count">{{orderStatusCount.pending_payment}}</view>
+          <view class="status-label">待付款</view>
+        </view>
+        <view class="order-status-item" bindtap="navigateToOrders" data-status="pending_shipment">
+          <view class="status-count">{{orderStatusCount.pending_shipment}}</view>
+          <view class="status-label">待发货</view>
+        </view>
+        <view class="order-status-item" bindtap="navigateToOrders" data-status="pending_receipt">
+          <view class="status-count">{{orderStatusCount.pending_receipt}}</view>
+          <view class="status-label">待收货</view>
+        </view>
+        <view class="order-status-item" bindtap="navigateToOrders" data-status="completed">
+          <view class="status-count">{{orderStatusCount.completed}}</view>
+          <view class="status-label">已完成</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 快捷功能 -->
+    <view class="shortcuts-card">
+      <view class="card-header">
+        <text class="card-title">商家功能</text>
+      </view>
+      <view class="shortcut-grid">
+        <view class="shortcut-item" bindtap="navigateToProducts">
+          <image class="shortcut-icon" src="/static/images/product.svg" mode="aspectFit"></image>
+          <text class="shortcut-label">商品管理</text>
+        </view>
+        <view class="shortcut-item" bindtap="navigateToCategories">
+          <image class="shortcut-icon" src="/static/images/category.svg" mode="aspectFit"></image>
+          <text class="shortcut-label">分类管理</text>
+        </view>
+        <view class="shortcut-item" bindtap="navigateToCoupons">
+          <image class="shortcut-icon" src="/static/images/coupon.png" mode="aspectFit"></image>
+          <text class="shortcut-label">优惠券</text>
+        </view>
+        <view class="shortcut-item" bindtap="navigateToOrders">
+          <image class="shortcut-icon" src="/static/images/order.svg" mode="aspectFit"></image>
+          <text class="shortcut-label">订单管理</text>
+        </view>
+        <view class="shortcut-item" bindtap="logout">
+          <image class="shortcut-icon" src="/static/images/logout.svg" mode="aspectFit"></image>
+          <text class="shortcut-label">退出登录</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

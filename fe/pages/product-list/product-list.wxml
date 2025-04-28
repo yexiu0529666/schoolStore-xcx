@@ -1,0 +1,121 @@
+<!--商品列表页面-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <block wx:if="{{isSearching}}">
+      <view class="search-box active">
+        <icon class="search-icon" type="search" size="16"></icon>
+        <input class="search-input" placeholder="搜索商品" value="{{searchKeyword}}" 
+          focus="{{isSearching}}" bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearch" />
+        <icon wx:if="{{searchKeyword}}" class="clear-icon" type="clear" size="16" 
+          bindtap="clearSearch"></icon>
+      </view>
+      <view class="search-cancel" bindtap="hideSearch">取消</view>
+    </block>
+    <block wx:else>
+      <view class="search-box" bindtap="showSearch">
+        <icon class="search-icon" type="search" size="16"></icon>
+        <view class="search-placeholder">{{searchKeyword || '搜索商品'}}</view>
+      </view>
+      <view class="filter-btn" bindtap="showFilter">
+        <text>筛选</text>
+        <image class="filter-icon" src="/static/images/filter.png"></image>
+      </view>
+    </block>
+  </view>
+
+  <!-- 搜索历史记录 -->
+  <view class="search-history" wx:if="{{isSearching && history.length > 0}}">
+    <view class="history-header">
+      <text class="history-title">搜索历史</text>
+      <view class="history-clear" bindtap="clearHistory">清空</view>
+    </view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{history}}" wx:key="index" bindtap="useHistory" data-keyword="{{item}}">
+        <icon class="history-icon" type="waiting" size="12" color="#999"></icon>
+        <text class="history-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 排序过滤器 -->
+  <view class="filter-bar" wx:if="{{!isSearching}}">
+    <!-- 类型筛选 -->
+    <view class="filter-item {{(sortBy === 'default' && type === '') ? 'active' : ''}}" 
+      bindtap="onSortChange" data-sort="default">默认</view>
+    <view class="filter-item {{type === 'new' ? 'active' : ''}}" 
+      bindtap="onTypeChange" data-type="new">最新</view>
+    <view class="filter-item {{type === 'hot' ? 'active' : ''}}" 
+      bindtap="onTypeChange" data-type="hot">最热</view>
+    <view class="filter-item {{type === 'recommend' ? 'active' : ''}}" 
+      bindtap="onTypeChange" data-type="recommend">推荐</view>
+    <view class="divider"></view>
+    <!-- 排序筛选 -->
+    <view class="filter-item {{sortBy === 'price_asc' && type === '' ? 'active' : ''}}" 
+      bindtap="onSortChange" data-sort="price_asc">价格↑</view>
+    <view class="filter-item {{sortBy === 'price_desc' && type === '' ? 'active' : ''}}" 
+      bindtap="onSortChange" data-sort="price_desc">价格↓</view>
+    <view class="filter-item {{sortBy === 'sales_desc' && type === '' ? 'active' : ''}}" 
+      bindtap="onSortChange" data-sort="sales_desc">销量</view>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilter}}">
+    <view class="filter-mask" bindtap="hideFilter"></view>
+    <view class="filter-content">
+      <view class="filter-header">
+        <text class="filter-title">筛选</text>
+        <view class="filter-close" bindtap="hideFilter">×</view>
+      </view>
+      <view class="filter-section">
+        <view class="filter-section-title">排序方式</view>
+        <view class="filter-options">
+          <view class="filter-option {{sortBy === item.id ? 'active' : ''}}" 
+            wx:for="{{sortOptions}}" wx:key="id"
+            bindtap="onSortChange" data-sort="{{item.id}}">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+      <view class="filter-actions">
+        <view class="filter-reset" bindtap="hideFilter">取消</view>
+        <view class="filter-confirm" bindtap="hideFilter">确定</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="product-list" wx:if="{{products.length > 0 && !isSearching}}">
+    <view class="product-item" wx:for="{{products}}" wx:key="id" bindtap="onProductTap" data-id="{{item.id}}">
+      <image class="product-image" src="{{item.main_image}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <view class="product-name">{{item.name}}</view>
+        <view class="product-price-row">
+          <view class="product-price">¥{{item.price}}</view>
+          <view class="product-original-price" wx:if="{{item.original_price && item.original_price > item.price}}">¥{{item.original_price}}</view>
+        </view>
+        <view class="product-sales">已售{{item.sales || 0}}件</view>
+      </view>
+      <view class="product-tag hot" wx:if="{{item.is_hot}}">热卖</view>
+      <view class="product-tag new" wx:elif="{{item.is_new}}">新品</view>
+      <view class="product-tag recommend" wx:elif="{{item.is_recommend}}">推荐</view>
+    </view>
+  </view>
+
+  <!-- 加载更多提示 -->
+  <view class="loading-more" wx:if="{{loading && !isSearching}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 无更多数据提示 -->
+  <view class="no-more" wx:if="{{products.length > 0 && !hasMore && !loading && !isSearching}}">
+    已经到底了~
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{products.length === 0 && !loading && !isSearching}}">
+    <image class="empty-icon" src="/static/images/empty-product.svg"></image>
+    <view class="empty-text">{{emptyTips}}</view>
+  </view>
+</view> 

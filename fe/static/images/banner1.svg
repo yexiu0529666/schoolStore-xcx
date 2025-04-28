@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="750" height="350" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景渐变 - 更现代的渐变 -->
+  <defs>
+    <!-- <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4d4d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff2d2d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#cc0000;stop-opacity:1" />
+    </linearGradient> -->
+    
+    <!-- 添加产品阴影效果 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComposite in="SourceGraphic" in2="offsetblur" operator="over"/>
+    </filter>
+    
+    <!-- 添加纹理图案 -->
+    <pattern id="texture" patternUnits="userSpaceOnUse" width="100" height="100">
+      <rect width="100" height="100" fill="#ff2d2d"/>
+      <path d="M0 0 L100 100 M-20 20 L20 100 M80 0 L120 100" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+    </pattern>
+  </defs>
+  
+  <!-- 背景 -->
+  <!-- <rect width="100%" height="100%" fill="url(#bgGradient)"/> -->
+  <rect width="100%" height="100%" fill="url(#texture)" opacity="0.3"/>
+  
+  <!-- 添加装饰性几何形状 -->
+  <circle cx="15%" cy="20%" r="80" fill="rgba(255,255,255,0.1)" />
+  <circle cx="85%" cy="30%" r="120" fill="rgba(255,255,255,0.1)" />
+  <rect x="70%" y="60%" width="150" height="150" transform="rotate(45 70% 60%)" fill="rgba(255,255,255,0.1)" />
+  
+  <!-- 主标题 - 添加阴影和装饰 -->
+  <g filter="url(#shadow)">
+    <text x="50%" y="42%" font-family="Arial, sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">新品上市</text>
+  </g>
+  
+  <!-- 副标题 - 更精致的样式 -->
+  <text x="50%" y="60%" font-family="Arial, sans-serif" font-size="32" fill="white" text-anchor="middle" dominant-baseline="middle">精选好物 · 品质保证 · 限时优惠</text>
+  
+  <!-- 添加CTA按钮 -->
+  <!-- <rect x="325" y="250" rx="25" ry="25" width="100" height="50" fill="white" filter="url(#shadow)"/>
+  <text x="375" y="280" font-family="Arial, sans-serif" font-size="18" fill="#ff2d2d" 
+        text-anchor="middle" dominant-baseline="middle" font-weight="bold">
+    立即购买
+  </text> -->
+  
+  <!-- 添加装饰性线条 - 更现代的设计 -->
+  <line x1="25%" y1="40%" x2="75%" y2="40%" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+  <line x1="25%" y1="55%" x2="75%" y2="55%" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+  
+  <!-- 添加产品图标装饰 -->
+  <!-- <g transform="translate(100, 150) scale(0.8)">
+    <rect x="0" y="0" width="40" height="40" rx="5" fill="rgba(255,255,255,0.7)" filter="url(#shadow)"/>
+    <rect x="50" y="0" width="40" height="40" rx="5" fill="rgba(255,255,255,0.7)" filter="url(#shadow)"/>
+    <rect x="100" y="0" width="40" height="40" rx="5" fill="rgba(255,255,255,0.7)" filter="url(#shadow)"/>
+  </g> -->
+  
+  <!-- 添加闪光点装饰 -->
+  <circle cx="20%" cy="80%" r="3" fill="white">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="30%" cy="15%" r="2" fill="white">
+    <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+  <circle cx="80%" cy="20%" r="4" fill="white">
+    <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" begin="1s"/>
+  </circle>
+</svg>

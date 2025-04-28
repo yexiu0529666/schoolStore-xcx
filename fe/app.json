@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/category/category",
+    "pages/product/product",
+    "pages/product-list/product-list",
+    "pages/cart/cart",
+    "pages/checkout/checkout",
+    "pages/order/order",
+    "pages/order-detail/order-detail",
+    "pages/user/user",
+    "pages/coupon/coupon",
+    "pages/coupon-center/coupon-center",
+    "pages/edit-profile/edit-profile",
+    "pages/address/address",
+    "pages/edit-address/edit-address",
+    "pages/favorite/favorite",
+    "pages/about/about",
+    "pages/reviews/reviews",
+    "pages/review/review",
+    "pages/merchant/dashboard/dashboard",
+    "pages/merchant/products/products",
+    "pages/merchant/product-edit/product-edit",
+    "pages/merchant/categories/categories",
+    "pages/merchant/add-product/add-product",
+    "pages/merchant/orders/orders",
+    "pages/merchant/coupons/coupons",
+    "pages/merchant/add-coupon/add-coupon",
+    "pages/merchant/order-detail/order-detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f95555",
+    "navigationBarTitleText": "校园迷你商城",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#f95555",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home-active.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "static/images/category.png",
+        "selectedIconPath": "static/images/category-active.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "static/images/cart.png",
+        "selectedIconPath": "static/images/cart-active.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/images/user.png",
+        "selectedIconPath": "static/images/user-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {},
+  "permission": {
+    "scope.camera": {
+      "desc": "需要使用您的相机扫描优惠券二维码"
+    }
+  }
+} 

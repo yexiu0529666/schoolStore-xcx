@@ -1,0 +1,104 @@
+<!--pages/review/review.wxml-->
+<view class="container">
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <block wx:else>
+    <!-- 商品信息 -->
+    <view class="product-card">
+      <image class="product-image" src="{{orderItem.product_image}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <view class="product-name">{{orderItem.product_name}}</view>
+        <view class="product-price">¥{{orderItem.price}}</view>
+      </view>
+    </view>
+    
+    <!-- 评分 -->
+    <view class="rating-section">
+      <view class="section-title">商品评分</view>
+      <view class="rating-stars">
+        <view 
+          class="star {{rating >= 1 ? 'active' : ''}}" 
+          bindtap="setRating" 
+          data-rating="1"
+        >★</view>
+        <view 
+          class="star {{rating >= 2 ? 'active' : ''}}" 
+          bindtap="setRating" 
+          data-rating="2"
+        >★</view>
+        <view 
+          class="star {{rating >= 3 ? 'active' : ''}}" 
+          bindtap="setRating" 
+          data-rating="3"
+        >★</view>
+        <view 
+          class="star {{rating >= 4 ? 'active' : ''}}" 
+          bindtap="setRating" 
+          data-rating="4"
+        >★</view>
+        <view 
+          class="star {{rating >= 5 ? 'active' : ''}}" 
+          bindtap="setRating" 
+          data-rating="5"
+        >★</view>
+      </view>
+      <view class="rating-text">
+        {{rating == 1 ? '非常差' : ''}}
+        {{rating == 2 ? '差' : ''}}
+        {{rating == 3 ? '一般' : ''}}
+        {{rating == 4 ? '好' : ''}}
+        {{rating == 5 ? '非常好' : ''}}
+      </view>
+    </view>
+    
+    <!-- 评价内容 -->
+    <view class="content-section">
+      <view class="section-title">评价内容</view>
+      <textarea 
+        class="review-content" 
+        placeholder="请分享您对商品的使用感受，您的评价对其他买家很有帮助哦~" 
+        bindinput="inputContent"
+        value="{{content}}"
+        maxlength="500"
+      ></textarea>
+      <view class="word-limit">{{content.length}}/500</view>
+    </view>
+    
+    <!-- 上传图片 -->
+    <view class="image-section">
+      <view class="section-title">上传图片 (最多3张)</view>
+      <view class="image-list">
+        <view class="image-item" wx:for="{{images}}" wx:key="index">
+          <image class="review-image" src="{{item}}" mode="aspectFill"></image>
+          <view class="image-delete" bindtap="deleteImage" data-index="{{index}}">×</view>
+        </view>
+        <view class="image-add" bindtap="chooseImage" wx:if="{{images.length < 3}}">
+          <view class="add-icon">+</view>
+          <view class="add-text">添加图片</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 匿名选项 -->
+    <view class="anonymous-section" bindtap="toggleAnonymous">
+      <view class="checkbox {{isAnonymous ? 'checked' : ''}}">
+        <view class="inner-check" wx:if="{{isAnonymous}}"></view>
+      </view>
+      <view class="checkbox-text">匿名评价</view>
+    </view>
+    
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button 
+        class="submit-btn {{submitting ? 'disabled' : ''}}" 
+        bindtap="submitReview"
+        disabled="{{submitting}}"
+      >
+        {{submitting ? '提交中...' : '提交评价'}}
+      </button>
+    </view>
+  </block>
+</view> 

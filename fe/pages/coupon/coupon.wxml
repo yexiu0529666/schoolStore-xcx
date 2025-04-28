@@ -1,0 +1,88 @@
+<!--pages/coupon/coupon.wxml-->
+<!-- 添加WXS模块用于日期格式化 -->
+<wxs module="dateUtil">
+  function formatToDay(dateTimeStr) {
+    if (!dateTimeStr) return '';
+    // 只取日期部分 (2023-05-01 12:00:00 -> 2023-05-01)
+    return dateTimeStr.split(' ')[0];
+  }
+  
+  module.exports = {
+    formatToDay: formatToDay
+  }
+</wxs>
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-title">我的优惠券</view>
+    <view class="header-btn" bindtap="openAvailableCoupons">
+      <text>领券中心</text>
+    </view>
+  </view>
+  
+  <!-- 选项卡 -->
+  <view class="tab-container">
+    <view 
+      wx:for="{{tabs}}" 
+      wx:key="index" 
+      class="tab-item {{currentTab === index ? 'active' : ''}}" 
+      data-index="{{index}}" 
+      bindtap="switchTab"
+    >
+      {{item}}
+    </view>
+  </view>
+  
+  <!-- 优惠券列表 -->
+  <scroll-view class="coupon-list" scroll-y enable-flex>
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <view class="loading"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
+    <!-- 优惠券列表 -->
+    <block wx:elif="{{coupons.length > 0}}">
+      <view class="coupon-item {{currentTab === 1 ? 'used' : (currentTab === 2 ? 'expired' : '')}}" 
+        wx:for="{{coupons}}" 
+        wx:key="id"
+      >
+        <view class="coupon-left">
+          <view class="coupon-value">
+            <text class="currency">¥</text>
+            <text class="amount">{{item.amount}}</text>
+          </view>
+          <view class="coupon-limit">满{{item.min_spend}}元可用</view>
+        </view>
+        
+        <view class="coupon-center">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-desc">{{item.description}}</view>
+          <view class="coupon-date">
+            <text>{{dateUtil.formatToDay(item.start_date)}} ~ {{dateUtil.formatToDay(item.end_date)}}</text>
+          </view>
+        </view>
+        
+        <view class="coupon-right">
+          <block wx:if="{{currentTab === 0}}">
+            <button class="coupon-btn use" bindtap="useCoupon" data-id="{{item.id}}">去使用</button>
+          </block>
+          <view class="coupon-status" wx:elif="{{currentTab === 1}}">已使用</view>
+          <view class="coupon-status" wx:elif="{{currentTab === 2}}">已过期</view>
+        </view>
+        
+        <view class="coupon-circle left-top"></view>
+        <view class="coupon-circle left-bottom"></view>
+        <view class="coupon-circle right-top"></view>
+        <view class="coupon-circle right-bottom"></view>
+      </view>
+    </block>
+    
+    <!-- 空状态 -->
+    <view class="empty-container" wx:else>
+      <image class="empty-icon" src="/static/images/empty-order.svg" mode="aspectFit"></image>
+      <text class="empty-text">暂无优惠券</text>
+    </view>
+  </scroll-view>
+
+</view>

@@ -1,0 +1,199 @@
+<!--pages/merchant/product-edit/product-edit.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+
+  <!-- 表单内容 -->
+  <view class="form-container" wx:else>
+    <!-- 基本信息部分 -->
+    <view class="section">
+      <view class="section-title">基本信息</view>
+      
+      <!-- 商品名称 -->
+      <view class="form-item">
+        <view class="form-label">商品名称</view>
+        <input class="form-input" value="{{product.name}}" placeholder="请输入商品名称" 
+          data-field="name" bindinput="onInputChange" />
+      </view>
+      
+      <!-- 商品价格 -->
+      <view class="form-item">
+        <view class="form-label">商品价格 (元)</view>
+        <input class="form-input" type="digit" value="{{product.price}}" placeholder="请输入商品价格" 
+          data-field="price" bindinput="handlePriceInput" />
+      </view>
+      
+      <!-- 商品原价 -->
+      <view class="form-item">
+        <view class="form-label">商品原价 (元)</view>
+        <input class="form-input" type="digit" value="{{product.original_price}}" placeholder="请输入商品原价（可选）" 
+          data-field="original_price" bindinput="handlePriceInput" />
+      </view>
+      
+      <!-- 商品库存 -->
+      <view class="form-item">
+        <view class="form-label">商品库存</view>
+        <input class="form-input" type="number" value="{{product.stock}}" placeholder="请输入商品库存" 
+          data-field="stock" bindinput="handleStockInput" />
+      </view>
+      
+      <!-- 上架状态 -->
+      <view class="form-item switch-item">
+        <view class="form-label">上架状态</view>
+        <switch class="form-switch" checked="{{product.is_on_sale}}" bindchange="toggleOnSale" color="#07c160" />
+      </view>
+
+      <!-- 检查按钮部分，添加推荐选项 -->
+      <view class="form-item switch-item">
+        <view class="form-label">设为热卖</view>
+        <switch checked="{{product.is_hot}}" bindchange="toggleHot" color="#07c160" />
+      </view>
+
+      <view class="form-item switch-item">
+        <view class="form-label">设为新品</view>
+        <switch checked="{{product.is_new}}" bindchange="toggleNew" color="#07c160" />
+      </view>
+
+      <view class="form-item switch-item">
+        <view class="form-label">设为推荐</view>
+        <switch checked="{{product.is_recommend}}" bindchange="toggleRecommend" color="#07c160" />
+      </view>
+    </view>
+    
+    <!-- 商品分类 -->
+    <view class="section">
+      <view class="section-title">商品分类</view>
+      <view class="form-item">
+        <view class="form-label">选择分类</view>
+        <picker bindchange="onCategoryChange" range="{{categories}}" range-key="name">
+          <view class="picker {{product.category_id ? '' : 'placeholder'}}">
+            {{selectedCategoryName || '请选择分类'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    
+    <!-- 商品图片部分 -->
+    <view class="section">
+      <view class="section-title">商品图片</view>
+      
+      <!-- 主图 -->
+      <view class="form-item">
+        <view class="form-label">商品主图</view>
+        <view class="uploader-container">
+          <!-- 已有主图 -->
+          <view class="image-item" wx:if="{{product.main_image && !tempMainImage}}">
+            <image class="upload-image" src="{{product.main_image}}" mode="aspectFill"></image>
+            <view class="delete-icon" bindtap="deleteExistingMainImage">×</view>
+          </view>
+          
+          <!-- 临时主图 -->
+          <view class="image-item" wx:elif="{{tempMainImage}}">
+            <image class="upload-image" src="{{tempMainImage}}" mode="aspectFill"></image>
+            <view class="delete-icon" bindtap="deleteMainImage">×</view>
+          </view>
+          
+          <!-- 上传按钮 -->
+          <view class="uploader" bindtap="uploadMainImage" wx:else>
+            <view class="uploader-icon">+</view>
+            <view class="uploader-text">上传主图</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 相册图片 -->
+      <view class="form-item">
+        <view class="form-label">商品相册 (最多9张)</view>
+        <view class="gallery-container">
+          <!-- 已有图片 -->
+          <block wx:for="{{product.gallery}}" wx:key="index">
+            <view class="image-item">
+              <image class="upload-image" src="{{item}}" mode="aspectFill"></image>
+              <view class="delete-icon" bindtap="deleteExistingGalleryImage" data-index="{{index}}">×</view>
+            </view>
+          </block>
+          
+          <!-- 临时图片 -->
+          <block wx:for="{{tempGalleryImages}}" wx:key="index">
+            <view class="image-item">
+              <image class="upload-image" src="{{item}}" mode="aspectFill"></image>
+              <view class="delete-icon" bindtap="deleteGalleryImage" data-index="{{index}}">×</view>
+            </view>
+          </block>
+          
+          <!-- 上传按钮 -->
+          <view class="uploader" bindtap="uploadProductImage" 
+            wx:if="{{product.gallery.length + tempGalleryImages.length < 9}}">
+            <view class="uploader-icon">+</view>
+            <view class="uploader-text">添加图片</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 商品描述部分 -->
+    <view class="section">
+      <view class="section-title">商品描述</view>
+      <view class="form-item">
+        <textarea class="form-textarea" value="{{product.description}}" placeholder="请输入商品描述（可选）" 
+          data-field="description" bindinput="onInputChange"></textarea>
+      </view>
+    </view>
+    
+    <!-- 商品规格部分 -->
+    <view class="section">
+      <view class="section-title">
+        <text>商品规格</text>
+        <text class="add-spec-btn" bindtap="addSpec">添加规格</text>
+      </view>
+      
+      <!-- 规格列表 -->
+      <view class="specs-list">
+        <block wx:if="{{product.specs && product.specs.length > 0}}">
+          <view class="spec-item" wx:for="{{product.specs}}" wx:key="index">
+            <view class="spec-header">
+              <text class="spec-index">规格{{index + 1}}</text>
+              <text class="delete-spec" bindtap="deleteSpec" data-index="{{index}}">删除</text>
+            </view>
+            
+            <view class="form-item">
+              <view class="form-label">规格名称</view>
+              <input class="form-input" value="{{item.name}}" placeholder="如：颜色、尺寸等" 
+                data-index="{{index}}" data-field="name" bindinput="onSpecNameChange" />
+            </view>
+            
+            <view class="form-item">
+              <view class="form-label">规格值</view>
+              <input class="form-input" value="{{item.value}}" placeholder="如：红色、XL等" 
+                data-index="{{index}}" data-field="value" bindinput="onSpecValueChange" />
+            </view>
+            
+            <view class="form-item">
+              <view class="form-label">价格 (元)</view>
+              <input class="form-input" type="digit" value="{{item.price}}" placeholder="该规格的价格" 
+                data-index="{{index}}" data-field="price" bindinput="onSpecPriceChange" />
+            </view>
+            
+            <view class="form-item">
+              <view class="form-label">库存</view>
+              <input class="form-input" type="number" value="{{item.stock}}" placeholder="该规格的库存" 
+                data-index="{{index}}" data-field="stock" bindinput="onSpecStockChange" />
+            </view>
+          </view>
+        </block>
+        
+        <view class="empty-specs" wx:else>
+          <text>暂无规格，点击"添加规格"按钮添加商品规格</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 底部按钮 -->
+    <view class="button-group">
+      <button class="btn-cancel" bindtap="cancelEdit" disabled="{{isSubmitting}}">取消</button>
+      <button class="btn-submit" bindtap="saveProduct" disabled="{{isSubmitting}}">{{isSubmitting ? '保存中...' : '保存'}}</button>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,52 @@
+<!--pages/address/address.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 地址列表 -->
+  <block wx:elif="{{addresses.length > 0}}">
+    <view class="address-list">
+      <view class="address-item" wx:for="{{addresses}}" wx:key="id">
+        <view class="address-info" bindtap="selectAddress" data-id="{{item.id}}">
+          <view class="address-header">
+            <text class="address-name">{{item.name}}</text>
+            <text class="address-phone">{{item.phone}}</text>
+            <text class="address-tag" wx:if="{{item.is_default}}">默认</text>
+          </view>
+          <view class="address-content">
+            <text>{{item.province}} {{item.city}} {{item.district}} {{item.detail}}</text>
+          </view>
+        </view>
+        
+        <view class="address-action">
+          <view class="action-btn edit" bindtap="editAddress" data-id="{{item.id}}">
+            <image src="/static/images/edit.svg" mode="aspectFit"></image>
+            <text>编辑</text>
+          </view>
+          <view class="action-btn delete" bindtap="deleteAddress" data-id="{{item.id}}">
+            <image src="/static/images/delete.svg" mode="aspectFit"></image>
+            <text>删除</text>
+          </view>
+          <view class="action-btn default" bindtap="setDefaultAddress" data-id="{{item.id}}" wx:if="{{!item.is_default}}">
+            <image src="/static/images/star.svg" mode="aspectFit"></image>
+            <text>设为默认</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  
+  <!-- 空状态 -->
+  <view class="empty-container" wx:else>
+    <image class="empty-icon" src="/static/images/empty-order.svg" mode="aspectFit"></image>
+    <text class="empty-text">暂无收货地址</text>
+  </view>
+  
+  <!-- 添加地址按钮 -->
+  <view class="add-address-btn" bindtap="addAddress">
+    <text>+ 新增收货地址</text>
+  </view>
+</view> 

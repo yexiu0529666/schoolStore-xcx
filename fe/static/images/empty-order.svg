@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>empty-order</title>
+    <g id="empty-order" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="background" fill="#F7F7F7" opacity="0" x="0" y="0" width="64" height="64"></rect>
+        <path d="M52,12 L52,56 C52,57.1 51.1,58 50,58 L14,58 C12.9,58 12,57.1 12,56 L12,8 C12,6.9 12.9,6 14,6 L46,6 L52,12 Z" id="document" stroke="#CCCCCC" stroke-width="2" fill="#FFFFFF"></path>
+        <polyline id="fold" stroke="#CCCCCC" stroke-width="2" points="46 6 46 12 52 12"></polyline>
+        <line x1="18" y1="20" x2="46" y2="20" id="line1" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="18" y1="28" x2="46" y2="28" id="line2" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="18" y1="36" x2="46" y2="36" id="line3" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="18" y1="44" x2="36" y2="44" id="line4" stroke="#CCCCCC" stroke-width="2" stroke-linecap="round"></line>
+    </g>
+</svg> 

@@ -1,0 +1,74 @@
+<!-- 商品评价列表页 -->
+<view class="container">
+  <view class="page-header">
+    <view class="product-info" wx:if="{{product}}">
+      <image class="product-image" src="{{product.main_image}}" mode="aspectFill"></image>
+      <view class="product-name">{{product.name}}</view>
+    </view>
+    
+    <view class="review-stats">
+      <view class="rating-info">
+        <view class="average-rating">{{averageRating || '0.0'}}</view>
+        <view class="rating-stars">
+          <block wx:for="{{5}}" wx:key="*this">
+            <image 
+              class="star-icon" 
+              src="{{(index + 1) <= Math.floor(averageRating) ? '/static/images/star-half.svg' : ((index + 0.5) <= averageRating ? '/static/images/star-filled.svg' : '/static/images/star.svg')}}">
+            </image>
+          </block>
+        </view>
+      </view>
+      <view class="rating-count">{{totalReviews || 0}}条评价</view>
+    </view>
+    
+    <view class="rating-filter">
+      <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="changeFilter" data-filter="all">全部</view>
+      <view class="filter-item {{currentFilter === 'good' ? 'active' : ''}}" bindtap="changeFilter" data-filter="good">好评</view>
+      <view class="filter-item {{currentFilter === 'medium' ? 'active' : ''}}" bindtap="changeFilter" data-filter="medium">中评</view>
+      <view class="filter-item {{currentFilter === 'bad' ? 'active' : ''}}" bindtap="changeFilter" data-filter="bad">差评</view>
+      <view class="filter-item {{currentFilter === 'hasImage' ? 'active' : ''}}" bindtap="changeFilter" data-filter="hasImage">有图</view>
+    </view>
+  </view>
+  
+  <view class="reviews-list">
+    <view class="no-reviews" wx:if="{{!reviews || reviews.length === 0}}">
+      暂无相关评价
+    </view>
+    
+    <view class="review-item" wx:for="{{reviews}}" wx:key="id">
+      <view class="reviewer-info">
+        <image class="reviewer-avatar" src="{{item.user.avatar || '/static/images/default-avatar.svg'}}"></image>
+        <text class="reviewer-name">{{item.is_anonymous ? '匿名用户' : item.user.nickname}}</text>
+        <view class="review-rating">
+          <view class="rating-stars">
+            <image wx:for="{{5}}" wx:key="*this" wx:for-item="star" wx:for-index="starIndex" class="star-icon" 
+                  src="{{starIndex + 1 <= item.rating ? '/static/images/star-filled.svg' : '/static/images/star.svg'}}"></image>
+          </view>
+        </view>
+      </view>
+      
+      <view class="review-content">{{item.content}}</view>
+      
+      <view class="review-spec" wx:if="{{item.spec_name}}">
+        规格：{{item.spec_name}} {{item.spec_value}}
+      </view>
+      
+      <view class="review-images" wx:if="{{item.images && item.images.length > 0}}">
+        <image wx:for="{{item.images}}" wx:for-item="img" wx:key="*this" 
+              src="{{img}}" mode="aspectFill" class="review-image" 
+              bindtap="previewImage" data-urls="{{item.images}}" data-current="{{img}}"></image>
+      </view>
+      
+      <view class="review-time">{{item.created_at}}</view>
+    </view>
+  </view>
+  
+  <view class="loading" wx:if="{{isLoading}}">
+    <view class="loading-icon"></view>
+    <view class="loading-text">加载中...</view>
+  </view>
+  
+  <view class="no-more" wx:if="{{!hasMoreReviews && reviews.length > 0}}">
+    没有更多评价了
+  </view>
+</view> 

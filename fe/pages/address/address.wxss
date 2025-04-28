@@ -1,0 +1,165 @@
+/* pages/address/address.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  padding-bottom: 150rpx;
+}
+
+/* 地址列表 */
+.address-list {
+  padding: 20rpx;
+}
+
+.address-item {
+  margin-bottom: 30rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.address-info {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.address-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.address-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.address-phone {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.address-tag {
+  margin-left: auto;
+  font-size: 22rpx;
+  color: #ff6b5d;
+  padding: 4rpx 12rpx;
+  border: 1rpx solid #ff6b5d;
+  border-radius: 20rpx;
+}
+
+.address-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 地址操作按钮 */
+.address-action {
+  display: flex;
+  padding: 20rpx;
+  background-color: #fafafa;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10rpx 20rpx;
+  margin-right: 30rpx;
+}
+
+.action-btn image {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx;
+}
+
+.action-btn text {
+  font-size: 26rpx;
+}
+
+.edit text {
+  color: #666;
+}
+
+.delete text {
+  color: #ff6b5d;
+}
+
+.default text {
+  color: #ff9f00;
+}
+
+/* 添加地址按钮 */
+.add-address-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff6b5d;
+  color: #fff;
+  font-size: 32rpx;
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.add-address-btn text {
+  font-weight: bold;
+}
+
+/* 加载状态 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 0;
+}
+
+.loading {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #ff6b5d;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 空状态 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+} 

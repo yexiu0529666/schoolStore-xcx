@@ -1,0 +1,129 @@
+<!--pages/index/index.wxml-->
+<!-- 添加WXS模块用于日期格式化 -->
+<wxs module="dateUtil">
+  function formatToDay(dateTimeStr) {
+    if (!dateTimeStr) return '';
+    // 只取日期部分 (2023-05-01 12:00:00 -> 2023-05-01)
+    return dateTimeStr.split(' ')[0];
+  }
+  
+  module.exports = {
+    formatToDay: formatToDay
+  }
+</wxs>
+
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search-box">
+      <icon class="search-icon" type="search" size="16"></icon>
+      <input class="search-input" placeholder="搜索商品" value="{{searchValue}}" bindinput="onSearchInput" confirm-type="search" bindconfirm="onSearch" />
+    </view>
+  </view>
+  
+  <!-- 轮播图 -->
+  <swiper class="banner" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" circular="{{true}}">
+    <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-url="{{item.linkUrl}}">
+      <image src="{{item.imageUrl}}" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+  </swiper>
+  
+  <!-- 分类导航 -->
+  <view class="category-nav">
+    <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="onCategoryTap" data-id="{{item.id}}">
+      <image class="category-icon" src="{{item.image_url}}" mode="aspectFill"></image>
+      <view class="category-name">{{item.name}}</view>
+    </view>
+  </view>
+  
+  <!-- 优惠券 -->
+  <view class="coupon-section" wx:if="{{coupons && coupons.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text>优惠券</text>
+        <text class="section-desc">先领券再购物</text>
+      </view>
+      <view class="section-more" bindtap="onMoreCouponTap">查看更多</view>
+    </view>
+    <view class="coupon-list">
+      <view class="coupon-item" wx:for="{{coupons}}" wx:key="id" bindtap="onCouponTap" data-id="{{item.id}}">
+        <view class="coupon-amount">¥<text>{{item.amount}}</text></view>
+        <view class="coupon-info">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-condition">{{item.threshold > 0 ? '满' + item.threshold + '元可用' : '无门槛'}}</view>
+          <view class="coupon-date">有效期至: {{dateUtil.formatToDay(item.expireDate)}}</view>
+        </view>
+        <view class="coupon-btn">立即领取</view>
+      </view>
+    </view>
+  </view>
+  
+  
+  <!-- 热门商品 -->
+  <view class="product-section" wx:if="{{hotProducts && hotProducts.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text>热门商品</text>
+        <text class="section-desc">大家都在买</text>
+      </view>
+      <view class="section-more" bindtap="onMoreHotTap">查看更多</view>
+    </view>
+    <scroll-view class="product-scroll" scroll-x="{{true}}">
+      <view class="product-list">
+        <view class="product-item" wx:for="{{hotProducts}}" wx:key="id" bindtap="onProductTap" data-id="{{item.id}}">
+          <image src="{{item.main_image}}" mode="aspectFill" class="product-image"></image>
+          <view class="product-info">
+            <view class="product-name">{{item.name}}</view>
+            <view class="product-price">¥{{item.price}}</view>
+            <view class="product-sales">已售{{item.sales}}件</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <!-- 新品上架 -->
+  <view class="product-section" wx:if="{{newProducts && newProducts.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">
+        <text>新品上架</text>
+        <text class="section-desc">每日上新，惊喜不断</text>
+      </view>
+      <view class="section-more" bindtap="onMoreNewTap">查看更多</view>
+    </view>
+    <view class="new-product-grid">
+      <view class="new-product-item" wx:for="{{newProducts}}" wx:key="id" bindtap="onProductTap" data-id="{{item.id}}">
+        <image src="{{item.main_image}}" mode="aspectFill" class="new-product-image"></image>
+        <view class="new-product-info">
+          <view class="new-product-name">{{item.name}}</view>
+          <view class="new-product-price">¥{{item.price}}</view>
+        </view>
+        <view class="new-tag">新品</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 推荐商品 -->
+  <view class="recommend-section">
+    <view class="section-header">
+      <view class="section-title">
+        <text>猜你喜欢</text>
+      </view>
+    </view>
+    <view class="recommend-list">
+      <view class="recommend-item" wx:for="{{recommendProducts}}" wx:key="id" bindtap="onProductTap" data-id="{{item.id}}">
+        <image src="{{item.main_image}}" mode="aspectFill" class="recommend-image"></image>
+        <view class="recommend-info">
+          <view class="recommend-name">{{item.name}}</view>
+          <view class="recommend-price">¥{{item.price}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+</view> 

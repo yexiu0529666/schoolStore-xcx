@@ -1,0 +1,115 @@
+<!--pages/coupon-center/coupon-center.wxml-->
+
+<!-- 添加WXS模块用于日期格式化 -->
+<wxs module="dateUtil">
+  function formatToDay(dateTimeStr) {
+    if (!dateTimeStr) return '';
+    // 只取日期部分 (2023-05-01 12:00:00 -> 2023-05-01)
+    return dateTimeStr.split(' ')[0];
+  }
+  
+  module.exports = {
+    formatToDay: formatToDay
+  }
+</wxs>
+
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-title">领券中心</view>
+    <view class="header-actions">
+      <view class="header-btn" bindtap="goToUserCoupons">
+        <text>我的优惠券</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 优惠券列表 -->
+  <scroll-view class="coupon-list" scroll-y enable-flex>
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <view class="loading"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
+    <!-- 可领取优惠券列表 -->
+    <block wx:elif="{{availableCoupons.length > 0}}">
+      <view class="coupon-item" wx:for="{{availableCoupons}}" wx:key="id">
+        <view class="coupon-left">
+          <view class="coupon-value">
+            <text class="currency">¥</text>
+            <text class="amount">{{item.amount}}</text>
+          </view>
+          <view class="coupon-limit">满{{item.min_spend}}元可用</view>
+        </view>
+        
+        <view class="coupon-center">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-desc">{{item.description}}</view>
+          <view class="coupon-date">
+            <text>{{dateUtil.formatToDay(item.start_date)}} ~ {{dateUtil.formatToDay(item.end_date)}}</text>
+          </view>
+        </view>
+        
+        <view class="coupon-right">
+          <block wx:if="{{!item.is_received}}">
+            <view class="btn-group">
+              <button class="receive-btn" bindtap="receiveCoupon" data-id="{{item.id}}">
+                立即领取
+              </button>
+              <button class="share-btn" bindtap="shareCoupon" data-coupon="{{item}}">
+                分享
+              </button>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="btn-group">
+              <view class="received-btn">
+                已领取
+              </view>
+              <button class="share-btn" bindtap="shareCoupon" data-coupon="{{item}}">
+                分享
+              </button>
+            </view>
+          </block>
+        </view>
+        
+        <view class="coupon-circle left-top"></view>
+        <view class="coupon-circle left-bottom"></view>
+        <view class="coupon-circle right-top"></view>
+        <view class="coupon-circle right-bottom"></view>
+      </view>
+    </block>
+    
+    <!-- 空状态 -->
+    <view class="empty-container" wx:else>
+      <image class="empty-icon" src="/static/images/empty-order.svg" mode="aspectFit"></image>
+      <text class="empty-text">暂无可领取的优惠券</text>
+    </view>
+  </scroll-view>
+
+  <!-- 分享弹窗 -->
+  <view class="share-modal" wx:if="{{showShareModal}}">
+    <view class="share-mask" bindtap="hideShareModal"></view>
+    <view class="share-content">
+      <view class="share-header">
+        <text class="share-title">分享优惠券</text>
+        <view class="share-close" bindtap="hideShareModal">×</view>
+      </view>
+      <view class="share-body">
+        <view class="share-qrcode">
+          <image src="{{shareQrcode}}" mode="aspectFit" bindlongpress="showShareOptions"></image>
+        </view>
+        <view class="coupon-info" wx:if="{{currentCoupon}}">
+          <view class="share-coupon-title">{{currentCoupon.title}}</view>
+          <view class="share-coupon-value">¥{{currentCoupon.amount}}</view>
+          <view class="share-coupon-desc">满{{currentCoupon.min_spend}}元可用</view>
+        </view>
+        <view class="share-tips">点击下方按钮分享</view>
+        <view class="action-buttons">
+          <button class="share-btn-modal" open-type="share">分享给好友</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

@@ -1,0 +1,89 @@
+<!--pages/category/category.wxml-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-box" bindtap="goToSearch">
+      <icon class="search-icon" type="search" size="16"></icon>
+      <view class="search-placeholder">搜索商品</view>
+    </view>
+  </view>
+  
+  <!-- 分类导航 -->
+  <view class="category-container">
+    <!-- 左侧分类菜单 -->
+    <scroll-view class="category-menu" scroll-y="{{true}}">
+      <view 
+        class="menu-item {{currentCategory.id === item.id ? 'active' : ''}}" 
+        wx:for="{{categories}}" 
+        wx:key="id" 
+        bindtap="switchCategory" 
+        data-id="{{item.id}}">
+        {{item.name}}
+      </view>
+    </scroll-view>
+    
+    <!-- 右侧商品列表 -->
+    <scroll-view 
+      class="category-content" 
+      scroll-y="{{true}}" 
+      bindscrolltolower="loadMoreProducts"
+      scroll-top="{{scrollTop}}">
+      
+      <!-- 分类标题和子分类 -->
+      <view class="content-header">
+        <view class="category-title">{{currentCategory.name}}</view>
+        
+        <view class="sub-categories" wx:if="{{currentCategory.sub_categories.length > 0}}">
+          <view 
+            class="sub-category-item {{currentSubCategory === 0 ? 'active' : ''}}" 
+            bindtap="switchSubCategory" 
+            data-id="0">
+            全部
+          </view>
+          <view 
+            class="sub-category-item {{currentSubCategory === item.id ? 'active' : ''}}" 
+            wx:for="{{currentCategory.sub_categories}}" 
+            wx:key="id" 
+            bindtap="switchSubCategory" 
+            data-id="{{item.id}}">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+      
+      <!-- 商品列表 -->
+      <view class="product-list">
+        <view 
+          class="product-item" 
+          wx:for="{{products}}" 
+          wx:key="id" 
+          bindtap="goToProductDetail" 
+          data-id="{{item.id}}">
+          <image class="product-image" src="{{item.main_image}}" mode="aspectFill"></image>
+          <view class="product-info">
+            <view class="product-name">{{item.name}}</view>
+            <view class="product-price">¥{{item.price}}</view>
+            <view class="product-sales">已售{{item.sales}}件</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 加载中 -->
+      <view class="loading" wx:if="{{isLoading}}">
+        <view class="loading-spinner"></view>
+        <text>加载中...</text>
+      </view>
+      
+      <!-- 加载完毕 -->
+      <view class="load-all" wx:if="{{loadAll && products.length > 0}}">
+        已加载全部商品
+      </view>
+      
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{!isLoading && products.length === 0}}">
+        <image class="empty-icon" src="/static/images/empty-search.png"></image>
+        <view class="empty-text">暂无商品</view>
+      </view>
+    </scroll-view>
+  </view>
+</view> 

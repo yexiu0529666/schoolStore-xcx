@@ -1,0 +1,166 @@
+<!--pages/merchant/order-detail/order-detail.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <view class="order-detail" wx:else>
+    <!-- 订单状态 -->
+    <view class="status-card">
+      <view class="status-icon status-{{orderDetail.status}}">
+        <text wx:if="{{orderDetail.status === 'pending_payment'}}">待付款</text>
+        <text wx:elif="{{orderDetail.status === 'pending_shipment'}}">待发货</text>
+        <text wx:elif="{{orderDetail.status === 'pending_receipt'}}">待收货</text>
+        <text wx:elif="{{orderDetail.status === 'completed'}}">已完成</text>
+        <text wx:elif="{{orderDetail.status === 'cancelled'}}">已取消</text>
+        <text wx:elif="{{orderDetail.status === 'refunding'}}">退款中</text>
+        <text wx:elif="{{orderDetail.status === 'refunded'}}">已退款</text>
+        <text wx:else>{{orderDetail.status}}</text>
+      </view>
+    </view>
+    
+    <!-- 收货地址 -->
+    <view class="info-card">
+      <view class="card-title">收货信息</view>
+      <view class="address-info">
+        <view class="address-contact">
+          <view class="contact-name">{{orderDetail.address_info.name}}</view>
+          <view class="contact-phone" bindtap="callPhone" data-phone="{{orderDetail.address_info.phone}}">
+            {{orderDetail.address_info.phone}}
+            <text class="phone-icon">拨打</text>
+          </view>
+        </view>
+        <view class="address-detail">
+          {{orderDetail.address_info.province}} {{orderDetail.address_info.city}} {{orderDetail.address_info.district}} {{orderDetail.address_info.detail}}
+        </view>
+      </view>
+    </view>
+    
+    <!-- 订单信息 -->
+    <view class="info-card">
+      <view class="card-title">订单信息</view>
+      <view class="order-info">
+        <view class="info-row">
+          <text class="info-label">订单编号:</text>
+          <text class="info-value">{{orderDetail.order_no}}</text>
+          <text class="copy-btn" bindtap="copyText" data-text="{{orderDetail.order_no}}">复制</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">下单时间:</text>
+          <text class="info-value">{{orderDetail.create_time}}</text>
+        </view>
+        <view class="info-row" wx:if="{{orderDetail.payment_time}}">
+          <text class="info-label">支付时间:</text>
+          <text class="info-value">{{orderDetail.payment_time}}</text>
+        </view>
+        <view class="info-row" wx:if="{{orderDetail.shipping_time}}">
+          <text class="info-label">发货时间:</text>
+          <text class="info-value">{{orderDetail.shipping_time}}</text>
+        </view>
+        <view class="info-row" wx:if="{{orderDetail.complete_time}}">
+          <text class="info-label">完成时间:</text>
+          <text class="info-value">{{orderDetail.complete_time}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">支付方式:</text>
+          <text class="info-value">{{orderDetail.payment_method || '微信支付'}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 商品信息 -->
+    <view class="info-card">
+      <view class="card-title">商品信息</view>
+      <view class="products-list">
+        <view class="product-item" wx:for="{{orderDetail.items}}" wx:key="id">
+          <image class="product-image" src="{{item.product_image}}" mode="aspectFill"></image>
+          <view class="product-info">
+            <view class="product-name">{{item.product_name}}</view>
+            <view class="product-spec" wx:if="{{item.spec_name && item.spec_value}}">
+              {{item.spec_name}}: {{item.spec_value}}
+            </view>
+            <view class="product-price-quantity">
+              <text class="product-price">¥{{item.price}}</text>
+              <text class="product-quantity">x{{item.quantity}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 金额信息 -->
+    <view class="info-card">
+      <view class="card-title">金额信息</view>
+      <view class="amount-info">
+        <view class="amount-row">
+          <text class="amount-label">商品总额</text>
+          <text class="amount-value">¥{{orderDetail.total_amount}}</text>
+        </view>
+        <view class="amount-row" wx:if="{{orderDetail.discount_amount > 0}}">
+          <text class="amount-label">优惠金额</text>
+          <text class="amount-value discount">-¥{{orderDetail.discount_amount}}</text>
+        </view>
+        <view class="amount-row" wx:if="{{orderDetail.shipping_fee > 0}}">
+          <text class="amount-label">运费</text>
+          <text class="amount-value">¥{{orderDetail.shipping_fee}}</text>
+        </view>
+        <view class="amount-row total">
+          <text class="amount-label">实付金额</text>
+          <text class="amount-value total">¥{{orderDetail.payment_amount}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 买家留言 -->
+    <view class="info-card" wx:if="{{orderDetail.remark}}">
+      <view class="card-title">买家留言</view>
+      <view class="remark">
+        {{orderDetail.remark}}
+      </view>
+    </view>
+    
+    <!-- 底部操作栏 -->
+    <view class="action-bar">
+      <!-- 待付款状态 -->
+      <block wx:if="{{orderDetail.status === 'pending_payment'}}">
+        <button class="action-btn" bindtap="processOrder" data-action="cancel">取消订单</button>
+      </block>
+      
+      <!-- 待发货状态 -->
+      <block wx:if="{{orderDetail.status === 'pending_shipment'}}">
+        <button class="action-btn primary" bindtap="processOrder" data-action="ship">确认发货</button>
+      </block>
+      
+      <!-- 退款中状态 -->
+      <block wx:if="{{orderDetail.status === 'refunding'}}">
+        <button class="action-btn" bindtap="showRefundReject">拒绝退款</button>
+        <button class="action-btn primary" bindtap="showRefundConfirm">同意退款</button>
+      </block>
+    </view>
+  </view>
+</view>
+
+<!-- 退款处理弹窗 -->
+<view class="refund-modal {{showRefundModal ? 'show' : ''}}">
+  <view class="modal-mask" bindtap="hideRefundModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">{{refundAction === 'confirm' ? '确认退款' : '拒绝退款'}}</text>
+      <text class="modal-close" bindtap="hideRefundModal">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="modal-form">
+        <view class="form-item">
+          <view class="item-label">备注说明</view>
+          <textarea class="item-input" bindinput="inputRefundRemark" placeholder="请输入处理说明（选填）"></textarea>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="modal-btn cancel" bindtap="hideRefundModal">取消</button>
+      <button class="modal-btn confirm" bindtap="handleRefund">确定</button>
+    </view>
+  </view>
+</view> 

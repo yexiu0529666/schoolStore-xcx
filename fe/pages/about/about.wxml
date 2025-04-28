@@ -1,0 +1,52 @@
+<!--pages/about/about.wxml-->
+<view class="container">
+  <view class="header">
+    <image class="logo" src="/static/images/logo.png" mode="aspectFit"></image>
+    <view class="app-name">{{appName}}</view>
+    <view class="version">版本 {{version}}</view>
+  </view>
+  
+  <view class="section">
+    <view class="section-title">应用简介</view>
+    <view class="section-content">
+      <text>{{description}}</text>
+    </view>
+  </view>
+  
+  <view class="section">
+    <view class="section-title">主要功能</view>
+    <view class="section-content">
+      <view class="feature-list">
+        <view class="feature-item" wx:for="{{features}}" wx:key="*this">
+          <view class="feature-dot"></view>
+          <text class="feature-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="section">
+    <view class="section-title">联系我们</view>
+    <view class="section-content">
+      <view class="contact-item" bindtap="makePhoneCall">
+        <image class="contact-icon" src="/static/images/phone.svg" mode="aspectFit"></image>
+        <text class="contact-text">{{contactInfo.phone}}</text>
+      </view>
+      
+      <view class="contact-item" bindtap="copyText" data-text="{{contactInfo.email}}">
+        <image class="contact-icon" src="/static/images/email.svg" mode="aspectFit"></image>
+        <text class="contact-text">{{contactInfo.email}}</text>
+      </view>
+      
+      <view class="contact-item">
+        <image class="contact-icon" src="/static/images/location.svg" mode="aspectFit"></image>
+        <text class="contact-text">{{contactInfo.address}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="footer">
+    <text>Copyright © 2025 校园迷你商城</text>
+    <text>All Rights Reserved</text>
+  </view>
+</view> 

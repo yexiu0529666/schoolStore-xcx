@@ -1,0 +1,116 @@
+<!--pages/merchant/orders/orders.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <view class="orders-content" wx:else>
+    <!-- 状态标签栏 -->
+    <view class="status-tabs">
+      <view 
+        wx:for="{{statusTabs}}" 
+        wx:key="index" 
+        class="tab-item {{currentTab === index ? 'active' : ''}}"
+        bindtap="switchTab"
+        data-index="{{index}}"
+      >
+        {{item.name}}
+      </view>
+    </view>
+    
+    <!-- 订单列表 -->
+    <view class="order-list">
+      <block wx:if="{{orders.length > 0}}">
+        <view 
+          class="order-item" 
+          wx:for="{{orders}}" 
+          wx:key="id"
+        >
+          <view class="order-header">
+            <view class="order-no" bindtap="copyOrderNo" data-no="{{item.order_no}}">
+              订单号：{{item.order_no}} <text class="copy-icon">复制</text>
+            </view>
+            <view class="order-status status-{{item.status}}">
+              <text wx:if="{{item.status === 'pending_payment'}}">待付款</text>
+              <text wx:elif="{{item.status === 'pending_shipment'}}">待发货</text>
+              <text wx:elif="{{item.status === 'pending_receipt'}}">待收货</text>
+              <text wx:elif="{{item.status === 'completed'}}">已完成</text>
+              <text wx:elif="{{item.status === 'cancelled'}}">已取消</text>
+              <text wx:elif="{{item.status === 'refunding'}}">退款中</text>
+              <text wx:elif="{{item.status === 'refunded'}}">已退款</text>
+              <text wx:else>{{item.status}}</text>
+            </view>
+          </view>
+          
+          <view class="order-body" bindtap="viewOrderDetail" data-id="{{item.id}}">
+            <!-- 商品列表 -->
+            <view class="order-products">
+              <view class="product-item" wx:for="{{item.items}}" wx:for-item="product" wx:key="id">
+                <image class="product-image" src="{{product.product_image}}" mode="aspectFill"></image>
+                <view class="product-info">
+                  <view class="product-name">{{product.product_name}}</view>
+                  <view class="product-price-quantity">
+                    <text class="product-price">¥{{product.price}}</text>
+                    <text class="product-quantity">x{{product.quantity}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            
+            <!-- 订单金额 -->
+            <view class="order-amount">
+              <text>总价：</text>
+              <text class="amount">¥{{item.payment_amount}}</text>
+            </view>
+          </view>
+          
+          <!-- 订单操作 -->
+          <view class="order-footer">            
+            <view class="order-actions">
+              <button 
+                class="action-btn" 
+                bindtap="viewOrderDetail"
+                data-id="{{item.id}}"
+              >详情</button>
+              
+              <block wx:if="{{item.status === 'pending_payment'}}">
+                <button 
+                  class="action-btn warning" 
+                  bindtap="processOrder"
+                  data-id="{{item.id}}"
+                  data-action="cancel"
+                >取消</button>
+              </block>
+              
+              <block wx:if="{{item.status === 'pending_shipment'}}">
+                <button 
+                  class="action-btn primary" 
+                  bindtap="processOrder"
+                  data-id="{{item.id}}"
+                  data-action="ship"
+                >发货</button>
+              </block>
+            </view>
+          </view>
+          <view class="order-time">下单时间：{{item.create_time}}</view>
+        </view>
+        
+        <!-- 加载更多 -->
+        <view class="load-more" wx:if="{{hasMore}}">
+          <text>上拉加载更多</text>
+        </view>
+        <view class="no-more" wx:else>
+          <text>没有更多订单了</text>
+        </view>
+      </block>
+      
+      <!-- 空状态 -->
+      <view class="empty-state" wx:else>
+        <image class="empty-icon" src="/static/images/empty-order.svg" mode="aspectFit"></image>
+        <text class="empty-text">暂无订单</text>
+      </view>
+    </view>
+  </view>
+</view>

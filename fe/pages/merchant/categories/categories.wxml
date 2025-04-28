@@ -1,0 +1,172 @@
+<!--pages/merchant/categories/categories.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <view class="categories-content" wx:else>
+    <!-- 顶部操作栏 -->
+    <view class="action-bar">
+      <view class="search-box">
+        <icon class="search-icon" type="search" size="14"></icon>
+        <input 
+          class="search-input" 
+          placeholder="搜索分类名称" 
+          confirm-type="search" 
+          value="{{keyword}}"
+          bindconfirm="searchCategories"
+        ></input>
+        <icon 
+          wx:if="{{keyword}}" 
+          class="clear-icon" 
+          type="clear" 
+          size="14" 
+          bindtap="clearKeyword"
+        ></icon>
+      </view>
+      <view class="add-btn" bindtap="showAddModal">添加分类</view>
+    </view>
+    
+    <!-- 分类列表 -->
+    <view class="category-list">
+      <block wx:if="{{filteredCategories.length > 0}}">
+        <view class="category-item" 
+              wx:for="{{filteredCategories}}" 
+              wx:key="id">
+          <view class="category-content">
+            <image class="category-image" src="{{item.image_url || '/static/images/default-category.png'}}" mode="aspectFill"></image>
+            <view class="category-info">
+              <view class="category-name">{{item.name}}</view>
+              <view class="category-desc">{{item.description || '暂无描述'}}</view>
+              <view class="category-extra">
+                <text class="order-text">排序: {{item.sort_order || 0}}</text>
+                <text class="id-text">ID: {{item.id}}</text>
+              </view>
+            </view>
+          </view>
+          
+          <!-- 分类操作 -->
+          <view class="category-actions">
+            <button 
+              class="action-btn edit" 
+              bindtap="showEditModal"
+              data-index="{{index}}"
+            >编辑</button>
+            
+            <button 
+              class="action-btn delete" 
+              bindtap="deleteCategory"
+              data-index="{{index}}"
+            >删除</button>
+          </view>
+        </view>
+      </block>
+      
+      <!-- 空状态 -->
+      <view class="empty-state" wx:if="{{categories.length === 0 || (keyword && filteredCategories.length === 0)}}">
+        <image class="empty-icon" src="/static/images/empty-data.svg" mode="aspectFit"></image>
+        <text class="empty-text">{{categories.length === 0 ? '暂无分类数据' : '没有找到相关分类'}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 添加分类模态框 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}" bindtap="closeAddModal"></view>
+  <view class="modal-container" wx:if="{{showAddModal}}">
+    <view class="modal-header">
+      <text class="modal-title">添加分类</text>
+      <view class="modal-close" bindtap="closeAddModal">×</view>
+    </view>
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="form-label">分类名称</text>
+        <input class="form-input" placeholder="请输入分类名称" 
+               value="{{newCategory.name}}" 
+               data-field="name" 
+               bindinput="handleCategoryInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">分类描述</text>
+        <textarea class="form-textarea" placeholder="请输入分类描述" 
+                  value="{{newCategory.description}}" 
+                  data-field="description" 
+                  bindinput="handleCategoryInput"></textarea>
+      </view>
+      <view class="form-item">
+        <text class="form-label">排序</text>
+        <input class="form-input" type="number" placeholder="请输入排序值，数字越小越靠前" 
+               value="{{newCategory.sort_order}}" 
+               data-field="sort_order" 
+               bindinput="handleCategoryInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">分类图片</text>
+        <view class="image-upload">
+          <view class="image-preview" wx:if="{{newCategory.image_url}}">
+            <image src="{{newCategory.image_url}}" mode="aspectFill"></image>
+            <view class="image-delete" bindtap="deleteImage">×</view>
+          </view>
+          <view class="image-selector" bindtap="chooseCategoryImage" wx:else>
+            <text class="icon-plus">+</text>
+            <text class="text">上传图片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn-cancel" bindtap="closeAddModal">取消</button>
+      <button class="btn-confirm" bindtap="submitAddCategory">确定</button>
+    </view>
+  </view>
+  
+  <!-- 编辑分类模态框 -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" bindtap="closeEditModal"></view>
+  <view class="modal-container" wx:if="{{showEditModal}}">
+    <view class="modal-header">
+      <text class="modal-title">编辑分类</text>
+      <view class="modal-close" bindtap="closeEditModal">×</view>
+    </view>
+    <view class="modal-body">
+      <view class="form-item">
+        <text class="form-label">分类名称</text>
+        <input class="form-input" placeholder="请输入分类名称" 
+               value="{{newCategory.name}}" 
+               data-field="name" 
+               bindinput="handleCategoryInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">分类描述</text>
+        <textarea class="form-textarea" placeholder="请输入分类描述" 
+                  value="{{newCategory.description}}" 
+                  data-field="description" 
+                  bindinput="handleCategoryInput"></textarea>
+      </view>
+      <view class="form-item">
+        <text class="form-label">排序</text>
+        <input class="form-input" type="number" placeholder="请输入排序值，数字越小越靠前" 
+               value="{{newCategory.sort_order}}" 
+               data-field="sort_order" 
+               bindinput="handleCategoryInput"></input>
+      </view>
+      <view class="form-item">
+        <text class="form-label">分类图片</text>
+        <view class="image-upload">
+          <view class="image-preview" wx:if="{{newCategory.image_url}}">
+            <image src="{{newCategory.image_url}}" mode="aspectFill"></image>
+            <view class="image-delete" bindtap="deleteImage">×</view>
+          </view>
+          <view class="image-selector" bindtap="chooseCategoryImage" wx:else>
+            <text class="icon-plus">+</text>
+            <text class="text">上传图片</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn-cancel" bindtap="closeEditModal">取消</button>
+      <button class="btn-confirm" bindtap="submitEditCategory">确定</button>
+    </view>
+  </view>
+</view> 

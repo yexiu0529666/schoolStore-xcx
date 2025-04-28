@@ -1,0 +1,53 @@
+<!--pages/favorite/favorite.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-title">我的收藏</view>
+  
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 收藏列表 -->
+  <block wx:elif="{{favorites.length > 0}}">
+    <view class="favorite-list">
+      <view class="favorite-item" wx:for="{{favorites}}" wx:key="id">
+        <view class="product-card" bindtap="goToProductDetail" data-product-id="{{item.product.id}}">
+          <image class="product-image" src="{{item.product.main_image}}" mode="aspectFill"></image>
+          
+          <view class="product-info">
+            <view class="product-name">{{item.product.name}}</view>
+            
+            <view class="product-price-container">
+              <view class="product-price">¥{{item.product.price}}</view>
+              <view class="product-original-price" wx:if="{{item.product.original_price}}">¥{{item.product.original_price}}</view>
+            </view>
+            
+            <view class="product-sales">销量 {{item.product.sales}}</view>
+          </view>
+        </view>
+        
+        <view class="action-btns">
+          <view class="btn" bindtap="addToCart" data-product-id="{{item.product.id}}">
+            <image src="/static/images/cart.png" mode="aspectFit"></image>
+            <text>加入购物车</text>
+          </view>
+          <view class="btn remove" bindtap="removeFavorite" data-id="{{item.id}}">
+            <image src="/static/images/delete.svg" mode="aspectFit"></image>
+            <text>取消收藏</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  
+  <!-- 空状态 -->
+  <view class="empty-container" wx:else>
+    <image class="empty-icon" src="/static/images/empty-order.svg" mode="aspectFit"></image>
+    <text class="empty-text">暂无收藏商品</text>
+    <view class="go-shopping" bindtap="goToIndex">
+      <text>去逛逛</text>
+    </view>
+  </view>
+</view> 

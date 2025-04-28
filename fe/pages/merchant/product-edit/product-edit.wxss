@@ -1,0 +1,310 @@
+/* pages/merchant/product-edit/product-edit.wxss */
+page {
+  background-color: #f7f7f7;
+}
+
+.container {
+  padding-bottom: 120rpx;
+}
+
+.form-container {
+  padding: 30rpx;
+}
+
+/* 加载中 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #07c160;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 表单容器 */
+.form-container {
+  padding: 30rpx;
+}
+
+/* 分区样式 */
+.section {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 30rpx;
+  color: #333;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 30rpx;
+  background-color: #07c160;
+  border-radius: 4rpx;
+}
+
+/* 表单项 */
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.form-textarea {
+  width: 100%;
+  height: 240rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 分类选择器样式 */
+.picker {
+  width: 100%;
+  height: 80rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 80rpx;
+}
+
+.picker.placeholder {
+  color: #999;
+}
+
+/* 开关样式 */
+.switch-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch-item .form-label {
+  margin-bottom: 0;
+}
+
+/* 图片上传相关 */
+.uploader-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gallery-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-item {
+  width: 200rpx;
+  height: 200rpx;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+  position: relative;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.upload-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44rpx;
+  height: 44rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 32rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.uploader {
+  width: 200rpx;
+  height: 200rpx;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8rpx;
+  margin-bottom: 20rpx;
+}
+
+.uploader-icon {
+  font-size: 60rpx;
+  color: #ccc;
+  line-height: 60rpx;
+  margin-bottom: 10rpx;
+}
+
+.uploader-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 底部按钮 */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.btn-cancel, .btn-submit {
+  width: 48%;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-cancel {
+  background-color: #f3f3f3;
+  color: #666;
+}
+
+.btn-submit {
+  background-color: #07c160;
+  color: #fff;
+}
+
+.btn-submit[disabled] {
+  background-color: #9ed5ba;
+  color: #fff;
+}
+
+/* 调试信息 */
+.debug-info {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #999;
+  background-color: #f5f5f5;
+  padding: 10rpx;
+  border-radius: 6rpx;
+}
+
+/* 开关组件样式 */
+switch {
+  transform: scale(0.9);
+  transform-origin: right center;
+}
+
+/* 商品规格部分 */
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-spec-btn {
+  font-size: 26rpx;
+  color: #07c160;
+  background-color: #e8f6ef;
+  padding: 6rpx 16rpx;
+  border-radius: 30rpx;
+  margin-left: 20rpx;
+}
+
+.specs-list {
+  margin-top: 10rpx;
+}
+
+.spec-item {
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+}
+
+.spec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15rpx;
+}
+
+.spec-index {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.delete-spec {
+  font-size: 26rpx;
+  color: #ff4d4f;
+  padding: 5rpx 15rpx;
+}
+
+.empty-specs {
+  padding: 40rpx 0;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+} 

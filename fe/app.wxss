@@ -1,0 +1,282 @@
+/**app.wxss**/
+page {
+  --primary-color: #f95555;
+  --secondary-color: #ff9500;
+  --text-color: #333;
+  --text-color-light: #999;
+  --background-color: #f7f7f7;
+  --border-color: #eee;
+  
+  background-color: var(--background-color);
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: var(--text-color);
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+}
+
+/* 容器基础样式 */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 内容区域 */
+.content {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  margin-bottom: 20rpx;
+  padding: 30rpx;
+  overflow: hidden;
+}
+
+/* 按钮基础样式 */
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  margin: 30rpx 0;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-color);
+}
+
+/* 输入框样式 */
+.input-group {
+  width: 100%;
+  margin-bottom: 30rpx;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+  color: var(--text-color);
+}
+
+.input {
+  width: 100%;
+  height: 88rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+
+/* 分割线 */
+.divider {
+  width: 100%;
+  height: 2rpx;
+  background-color: var(--border-color);
+  margin: 20rpx 0;
+}
+
+/* 弹性布局工具类 */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* 文本溢出省略 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 徽标 */
+.badge {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  min-width: 36rpx;
+  height: 36rpx;
+  border-radius: 18rpx;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 24rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 6rpx;
+  box-sizing: border-box;
+}
+
+/* 价格文本 */
+.price {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.price-small {
+  font-size: 24rpx;
+}
+
+.price-large {
+  font-size: 36rpx;
+}
+
+/* 商品网格 */
+.goods-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.goods-item {
+  width: 48%;
+  background-color: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.goods-img {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+}
+
+.goods-img image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.goods-info {
+  padding: 16rpx;
+}
+
+.goods-title {
+  font-size: 28rpx;
+  line-height: 1.3;
+  height: 72rpx;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 自定义导航栏 */
+.custom-nav {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: #fff;
+  position: relative;
+}
+
+.custom-nav-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  text-align: center;
+  flex: 1;
+}
+
+/* 加载中样式 */
+.loading {
+  text-align: center;
+  padding: 30rpx 0;
+  color: var(--text-color-light);
+  font-size: 28rpx;
+}
+
+.loading-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  color: var(--text-color-light);
+  font-size: 30rpx;
+} 

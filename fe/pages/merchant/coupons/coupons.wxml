@@ -1,0 +1,74 @@
+<!--pages/merchant/coupons/coupons.wxml-->
+
+<!-- 添加WXS模块用于日期格式化 -->
+<wxs module="dateUtil">
+  function formatToDay(dateTimeStr) {
+    if (!dateTimeStr) return '';
+    // 只取日期部分 (2023-05-01 12:00:00 -> 2023-05-01)
+    return dateTimeStr.split(' ')[0];
+  }
+  
+  module.exports = {
+    formatToDay: formatToDay
+  }
+</wxs>
+
+<view class="container">
+  <!-- 头部操作栏 -->
+  <view class="action-bar">
+    <view class="title">优惠券管理</view>
+    <view class="empty-action" bindtap="addCoupon">添加优惠券</view>
+  </view>
+  
+  <!-- 优惠券列表 -->
+  <view class="coupon-list" wx:if="{{coupons.length > 0}}">
+    <view class="coupon-item" wx:for="{{coupons}}" wx:key="id">
+      <view class="coupon-content">
+        <view class="coupon-left">
+          <view class="coupon-amount">¥<text class="amount-number">{{item.amount}}</text></view>
+          <view class="coupon-min" wx:if="{{item.min_spend > 0}}">满{{item.min_spend}}元可用</view>
+          <view class="coupon-min" wx:else>无门槛</view>
+        </view>
+        <view class="coupon-right">
+          <view class="coupon-title">{{item.title}}</view>
+          <view class="coupon-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          <view class="coupon-date">
+            有效期：{{dateUtil.formatToDay(item.start_date)}} ~ {{dateUtil.formatToDay(item.end_date)}}
+          </view>
+          <view class="coupon-info">
+            <text class="coupon-code">券码: {{item.coupon_code}}</text>
+            <text class="coupon-count">已领: {{item.used_count}}{{item.quantity !== -1 ? ' / ' + item.quantity : ''}}</text>
+          </view>
+          <view class="coupon-status {{item.is_active ? 'active' : 'inactive'}}">
+            {{item.is_active ? '已启用' : '已停用'}}
+          </view>
+        </view>
+      </view>
+      <view class="coupon-actions">
+        <view class="action-btn edit" bindtap="editCoupon" data-id="{{item.id}}">编辑</view>
+        <view class="action-btn {{item.is_active ? 'disable' : 'enable'}}" bindtap="toggleStatus" data-id="{{item.id}}" data-status="{{item.is_active}}">
+          {{item.is_active ? '停用' : '启用'}}
+        </view>
+        <view class="action-btn delete" bindtap="deleteCoupon" data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading && coupons.length === 0}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+  
+  <!-- 加载更多 -->
+  <view class="loading-more" wx:if="{{loading && coupons.length > 0}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载更多...</text>
+  </view>
+  
+  <!-- 无数据提示 -->
+  <view class="empty-tip" wx:if="{{!loading && coupons.length === 0}}">
+    <image class="empty-icon" src="/static/images/coupon.png" mode="aspectFit"></image>
+    <view class="empty-text">暂无优惠券</view>
+  </view>
+</view>

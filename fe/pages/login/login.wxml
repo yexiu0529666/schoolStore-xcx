@@ -1,0 +1,91 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <view class="login-header">
+    <image class="logo" src="/static/images/logo.png" mode="aspectFit"></image>
+    <view class="title">校园迷你商城</view>
+    <view class="subtitle">一站式校园购物体验</view>
+  </view>
+  
+  <view class="login-tabs">
+    <view class="tab {{loginType === 'phone' ? 'active' : ''}}" bindtap="switchLoginType" data-type="phone">手机号登录</view>
+    <view class="tab {{loginType === 'wx' ? 'active' : ''}}" bindtap="switchLoginType" data-type="wx">微信一键登录</view>
+    <view class="tab {{loginType === 'admin' ? 'active' : ''}}" bindtap="switchLoginType" data-type="admin">管理员登录</view>
+  </view>
+  
+  <view class="login-form">
+    <!-- 手机号登录 -->
+    <block wx:if="{{loginType === 'phone'}}">
+      <view class="input-group">
+        <image class="input-icon" src="/static/images/phone.png"></image>
+        <input class="input" type="number" placeholder="请输入手机号码" value="{{phone}}" bindinput="inputPhone" maxlength="11" />
+      </view>
+      
+      <view class="input-group">
+        <image class="input-icon" src="/static/images/password.png"></image>
+        <input class="input" type="{{isPasswordVisible ? 'text' : 'password'}}" placeholder="请输入密码" value="{{password}}" bindinput="inputPassword" />
+        <view class="password-toggle" bindtap="togglePasswordVisibility">
+          <image class="eye-icon" src="{{isPasswordVisible ? '/static/images/eye-open.png' : '/static/images/eye-close.png'}}"></image>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 管理员登录 -->
+    <block wx:if="{{loginType === 'admin'}}">
+      <view class="input-group">
+        <image class="input-icon" src="/static/images/username.png"></image>
+        <input class="input" type="text" placeholder="请输入管理员账号" value="{{username}}" bindinput="inputUsername" />
+      </view>
+      
+      <view class="input-group">
+        <image class="input-icon" src="/static/images/password.png"></image>
+        <input class="input" type="{{isPasswordVisible ? 'text' : 'password'}}" placeholder="请输入密码" value="{{password}}" bindinput="inputPassword" />
+        <view class="password-toggle" bindtap="togglePasswordVisibility">
+          <image class="eye-icon" src="{{isPasswordVisible ? '/static/images/eye-open.png' : '/static/images/eye-close.png'}}"></image>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 错误提示 -->
+    <view class="error-tip" wx:if="{{loginError}}">{{loginError}}</view>
+    
+    <!-- 协议同意 -->
+    <view class="agreement">
+      <view class="checkbox {{isAgree ? 'checked' : ''}}" bindtap="toggleAgreement">
+        <image wx:if="{{isAgree}}" class="checkbox-icon" src="/static/images/checked.png"></image>
+      </view>
+      <view class="agreement-text">
+        我已阅读并同意
+        <text class="link" bindtap="viewUserAgreement">《用户协议》</text>
+        和
+        <text class="link" bindtap="viewPrivacyPolicy">《隐私政策》</text>
+      </view>
+    </view>
+    
+    <!-- 登录按钮 -->
+    <block wx:if="{{loginType === 'wx'}}">
+      <button class="wx-button" bindtap="wxLogin" disabled="{{isLoading}}">
+        <view class="button-text">微信一键登录</view>
+      </button>
+    </block>
+    <block wx:elif="{{loginType === 'admin'}}">
+      <button class="btn btn-primary admin-login-btn" bindtap="adminLogin" disabled="{{isLoading}}">
+        {{isLoading ? '登录中...' : '管理员登录'}}
+      </button>
+    </block>
+    <block wx:else>
+      <button class="btn btn-primary" bindtap="login" disabled="{{isLoading}}">
+        {{isLoading ? '登录中...' : '登 录'}}
+      </button>
+    </block>
+    
+    <!-- 其他选项 -->
+    <view class="options" wx:if="{{loginType !== 'admin'}}">
+      <view class="option" bindtap="goToRegister">注册账号</view>
+      <view class="option" bindtap="goToForgotPassword">忘记密码</view>
+    </view>
+  </view>
+  
+  <view class="login-footer">
+    <view class="version">v1.0.0</view>
+  </view>
+</view> 

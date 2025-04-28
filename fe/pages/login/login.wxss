@@ -1,0 +1,239 @@
+/* pages/login/login.wxss */
+.container {
+  min-height: 100vh;
+  padding: 40rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60rpx;
+}
+
+.logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  color: #333;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.login-tabs {
+  display: flex;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 50rpx;
+}
+
+.tab {
+  flex: 1;
+  padding: 20rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: #999;
+  position: relative;
+}
+
+.tab.active {
+  color: #f95555;
+  font-weight: bold;
+}
+
+.tab.active:after {
+  content: '';
+  position: absolute;
+  bottom: -2rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background-color: #f95555;
+  border-radius: 2rpx;
+}
+
+.login-form {
+  flex: 1;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  padding-bottom: 10rpx;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 28rpx;
+}
+
+.password-toggle {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.code-button {
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  color: #f95555;
+  background-color: #fff;
+  border: 1rpx solid #f95555;
+}
+
+.code-button.disabled {
+  color: #bbb;
+  border-color: #eee;
+}
+
+.error-tip {
+  color: #f95555;
+  font-size: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox.checked {
+  border-color: #f95555;
+  background-color: #f95555;
+}
+
+.checkbox-icon {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.agreement-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.link {
+  color: #f95555;
+}
+
+.btn {
+  width: 100%;
+  height: 90rpx;
+  border-radius: 45rpx;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx;
+}
+
+.btn-primary {
+  background-color: #f95555;
+  color: #fff;
+}
+
+.btn-primary:active {
+  background-color: #e04e4e;
+}
+
+.btn-primary[disabled] {
+  background-color: #faacac;
+}
+
+.admin-login-btn {
+  background-color: #3e62ad;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+
+.option {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.login-footer {
+  margin-top: 80rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.version {
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* 微信登录按钮样式 */
+.wx-button {
+  width: 100%;
+  height: 90rpx;
+  background-color: #07c160;
+  color: white;
+  border-radius: 45rpx;
+  font-size: 30rpx;
+  margin-bottom: 30rpx;
+  padding: 0 !important;
+  box-sizing: border-box;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-text {
+  line-height: 1;
+}
+
+.wx-button::after {
+  border: none;
+}
+
+.wx-button[disabled] {
+  background-color: #7fd49e;
+  color: rgba(255, 255, 255, 0.8);
+} 

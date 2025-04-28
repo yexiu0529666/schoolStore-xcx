@@ -1,0 +1,408 @@
+/* pages/index/index.wxss */
+.container {
+  padding-bottom: 40rpx;
+}
+
+/* 搜索框 */
+.search-bar {
+  background-color: var(--primary-color);
+  padding: 20rpx 30rpx;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 30rpx;
+  padding: 10rpx 20rpx;
+}
+
+.search-icon {
+  margin-right: 10rpx;
+}
+
+.search-input {
+  flex: 1;
+  height: 60rpx;
+  font-size: 28rpx;
+}
+
+/* 轮播图 */
+.banner {
+  width: 100%;
+  height: 320rpx;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 分类导航 */
+.category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30rpx;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.category-item {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.category-icon {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  margin-bottom: 10rpx;
+}
+
+.category-name {
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 通用区域标题 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 30rpx 20rpx;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.section-desc {
+  font-size: 24rpx;
+  color: #999;
+  font-weight: normal;
+  margin-left: 20rpx;
+}
+
+.section-more {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 优惠券 */
+.coupon-section {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.coupon-list {
+  padding: 0 30rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.coupon-item {
+  display: flex;
+  align-items: center;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+  background: linear-gradient(to right, var(--primary-color), #ff6b6b);
+  border-radius: 10rpx;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.coupon-item::before {
+  content: '';
+  position: absolute;
+  left: -10rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #f7f7f7;
+  border-radius: 50%;
+}
+
+.coupon-item::after {
+  content: '';
+  position: absolute;
+  right: -10rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #f7f7f7;
+  border-radius: 50%;
+}
+
+.coupon-amount {
+  width: 200rpx;
+  text-align: center;
+  font-size: 36rpx;
+}
+
+.coupon-amount text {
+  font-size: 60rpx;
+  font-weight: bold;
+}
+
+.coupon-info {
+  flex: 1;
+  padding: 20rpx 0;
+}
+
+.coupon-title {
+  font-size: 32rpx;
+  margin-bottom: 10rpx;
+}
+
+.coupon-condition {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-bottom: 10rpx;
+}
+
+.coupon-date {
+  font-size: 22rpx;
+  opacity: 0.7;
+}
+
+.coupon-btn {
+  width: 150rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 30rpx;
+  margin-right: 20rpx;
+  font-size: 26rpx;
+}
+
+/* 促销活动 */
+.promotion-section {
+  margin-bottom: 20rpx;
+}
+
+.promotion-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx;
+}
+
+.promotion-item {
+  width: 48%;
+  height: 200rpx;
+  position: relative;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.promotion-image {
+  width: 100%;
+  height: 100%;
+}
+
+.promotion-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20rpx;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  color: #fff;
+}
+
+.promotion-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 5rpx;
+}
+
+.promotion-desc {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* 热门商品 */
+.product-section {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.product-scroll {
+  width: 100%;
+  white-space: nowrap;
+  padding: 0 30rpx 30rpx;
+}
+
+.product-list {
+  display: inline-flex;
+}
+
+.product-item {
+  width: 280rpx;
+  margin-right: 20rpx;
+  display: inline-block;
+}
+
+.product-image {
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 12rpx;
+}
+
+.product-info {
+  padding: 15rpx 0;
+}
+
+.product-name {
+  font-size: 28rpx;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  font-size: 32rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin: 5rpx 0;
+}
+
+.product-sales {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 新品上架 */
+.new-product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx 30rpx;
+}
+
+.new-product-item {
+  width: calc(50% - 20rpx);
+  margin: 0 10rpx 20rpx;
+  position: relative;
+}
+
+.new-product-image {
+  width: 100%;
+  height: 320rpx;
+  border-radius: 12rpx;
+}
+
+.new-product-info {
+  padding: 15rpx 10rpx;
+}
+
+.new-product-name {
+  font-size: 28rpx;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.new-product-price {
+  font-size: 32rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-top: 5rpx;
+}
+
+.new-tag {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 5rpx 10rpx;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+}
+
+/* 推荐商品 */
+.recommend-section {
+  background-color: #fff;
+}
+
+.recommend-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20rpx;
+}
+
+.recommend-item {
+  width: calc(50% - 20rpx);
+  margin: 0 10rpx 30rpx;
+}
+
+.recommend-image {
+  width: 100%;
+  height: 320rpx;
+  border-radius: 12rpx;
+}
+
+.recommend-info {
+  padding: 15rpx 10rpx;
+}
+
+.recommend-name {
+  font-size: 28rpx;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.recommend-price {
+  font-size: 32rpx;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-top: 5rpx;
+}
+
+/* 加载样式 */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid var(--primary-color);
+  border-radius: 50%;
+  margin-bottom: 10rpx;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 

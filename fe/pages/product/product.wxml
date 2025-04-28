@@ -1,0 +1,159 @@
+<!--pages/product/product.wxml-->
+<view class="container">
+  <!-- 商品轮播图 -->
+  <swiper class="product-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" circular="{{true}}">
+    <block wx:if="{{product.images && product.images.length > 0}}">
+      <swiper-item wx:for="{{product.images}}" wx:key="*this">
+        <image src="{{item}}" mode="aspectFill" class="slide-image" bindtap="previewImage" data-index="{{index}}"></image>
+      </swiper-item>
+    </block>
+    <block wx:else>
+      <swiper-item>
+        <image src="{{product.main_image}}" mode="aspectFill" class="slide-image" bindtap="previewImage" data-index="0"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 商品信息 -->
+  <view class="product-info">
+    <view class="product-price">
+      <text class="price">¥{{selectedSpec ? selectedSpec.price : product.price}}</text>
+      <text class="original-price" wx:if="{{product.original_price}}">¥{{product.original_price}}</text>
+    </view>
+    <view class="product-name">{{product.name}}</view>
+    <view class="product-sales">
+      <text>销量 {{product.sales}}</text>
+      <text class="stock">库存 {{selectedSpec ? selectedSpec.stock : product.stock}}</text>
+    </view>
+  </view>
+
+  <!-- 商品规格 -->
+  <view class="product-specs" bindtap="openSpecsPopup">
+    <text class="label">规格</text>
+    <view class="value">
+      <text wx:if="{{selectedSpec}}">已选：{{selectedSpec.name}} {{selectedSpec.value}}</text>
+      <text wx:else>请选择规格</text>
+    </view>
+    <view class="arrow"></view>
+  </view>
+
+  <!-- 商品详情 -->
+  <view class="product-detail">
+    <view class="detail-title">商品详情</view>
+    <view class="detail-content">
+      <rich-text nodes="{{product.description || '暂无商品详情'}}"></rich-text>
+    </view>
+  </view>
+
+  <!-- 商品评价 -->
+  <view class="product-reviews">
+    <view class="reviews-header">
+      <view class="reviews-title">商品评价</view>
+      <view class="reviews-count" wx:if="{{product.review_count}}">{{product.review_count}}条评价</view>
+      <view class="reviews-more" bindtap="viewMoreReviews">查看全部 ></view>
+    </view>
+    
+    <view class="no-reviews" wx:if="{{!reviews || reviews.length === 0}}">
+      暂无评价
+    </view>
+    
+    <view class="reviews-list" wx:else>
+      <view class="review-item" wx:for="{{reviews}}" wx:key="id">
+        <view class="reviewer-info">
+          <image class="reviewer-avatar" src="{{item.user.avatar || '/static/images/default-avatar.svg'}}"></image>
+          <text class="reviewer-name">{{item.is_anonymous ? '匿名用户' : item.user.nickname}}</text>
+          <view class="review-rating">
+            <view class="rating-stars">
+              <image wx:for="{{5}}" wx:key="*this" wx:for-item="star" class="star-icon" 
+                    src="{{star <= item.rating ? '/static/images/star-filled.svg' : '/static/images/star.svg'}}"></image>
+            </view>
+          </view>
+        </view>
+        <view class="review-content">{{item.content}}</view>
+        <view class="review-images" wx:if="{{item.images && item.images.length > 0}}">
+          <image wx:for="{{item.images}}" wx:for-item="img" wx:key="*this" 
+                src="{{img}}" mode="aspectFill" class="review-image" 
+                bindtap="previewReviewImage" data-urls="{{item.images}}" data-current="{{img}}"></image>
+        </view>
+        <view class="review-time">{{item.created_at}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer">
+    <view class="footer-buttons">
+      <view class="button-item" bindtap="goToHome">
+        <image class="icon" src="/static/images/home.png"></image>
+        <text>首页</text>
+      </view>
+      <view class="button-item" bindtap="goToCart">
+        <image class="icon" src="/static/images/cart.png"></image>
+        <text>购物车</text>
+        <view class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</view>
+      </view>
+      <view class="button-item" bindtap="toggleFavorite">
+        <image class="icon" src="{{isFavorite ? '/static/images/star-filled.svg' : '/static/images/star.svg'}}"></image>
+        <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+      </view>
+      <button class="add-cart-btn" bindtap="openSpecsPopup" data-action="addToCart">加入购物车</button>
+      <button class="buy-now-btn" bindtap="openSpecsPopup" data-action="buyNow">立即购买</button>
+    </view>
+  </view>
+
+  <!-- 规格选择弹窗 -->
+  <view class="specs-popup {{isSpecsPopupVisible ? 'show' : ''}}">
+    <view class="popup-mask" bindtap="closeSpecsPopup"></view>
+    <view class="popup-content">
+      <view class="popup-header">
+        <image class="popup-product-image" src="{{product.main_image}}" mode="aspectFill"></image>
+        <view class="popup-product-info">
+          <view class="popup-product-price">¥{{selectedSpec ? selectedSpec.price : product.price}}</view>
+          <view class="popup-product-stock">库存：{{selectedSpec ? selectedSpec.stock : product.stock}}</view>
+          <view class="popup-product-selected" wx:if="{{selectedSpec}}">已选：{{selectedSpec.name}} {{selectedSpec.value}}</view>
+        </view>
+        <view class="popup-close" bindtap="closeSpecsPopup">×</view>
+      </view>
+
+      <view class="popup-specs" wx:if="{{product.specs && product.specs.length > 0}}">
+        <view class="specs-title">规格</view>
+        <view class="specs-list">
+          <view 
+            class="spec-item {{item.id === selectedSpec.id ? 'active' : ''}} {{item.stock <= 0 ? 'disabled' : ''}}" 
+            wx:for="{{product.specs}}" 
+            wx:key="id" 
+            bindtap="selectSpec" 
+            data-id="{{item.id}}">
+            {{item.name}} {{item.value}}
+          </view>
+        </view>
+      </view>
+
+      <view class="popup-quantity">
+        <view class="quantity-title">数量</view>
+        <view class="quantity-selector">
+          <view class="quantity-decrease {{quantity <= 1 ? 'disabled' : ''}}" bindtap="decreaseQuantity">-</view>
+          <input class="quantity-input" type="number" value="{{quantity}}" bindinput="inputQuantity" />
+          <view class="quantity-increase {{quantity >= (selectedSpec ? selectedSpec.stock : product.stock) ? 'disabled' : ''}}" bindtap="increaseQuantity">+</view>
+        </view>
+      </view>
+
+      <view class="popup-buttons">
+        <button 
+          class="add-cart-btn" 
+          wx:if="{{currentAction === 'addToCart'}}" 
+          bindtap="addToCart"
+          disabled="{{!selectedSpec && product.specs && product.specs.length > 0}}">
+          加入购物车
+        </button>
+        <button 
+          class="buy-now-btn" 
+          wx:if="{{currentAction === 'buyNow'}}" 
+          bindtap="buyNow"
+          disabled="{{!selectedSpec && product.specs && product.specs.length > 0}}">
+          立即购买
+        </button>
+      </view>
+    </view>
+  </view>
+</view> 
