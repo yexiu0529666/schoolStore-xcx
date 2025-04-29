@@ -286,6 +286,8 @@ Page({
         if (res.confirm) {
           try {
             wx.clearStorageSync();
+            wx.removeStorageSync('token');
+            app.globalData.token = '';  // 清除全局token
             wx.showToast({
               title: '清除成功',
               icon: 'success'
@@ -312,21 +314,8 @@ Page({
       content: '确定要退出登录吗？',
       success: (res) => {
         if (res.confirm) {
-          // 清除用户信息和token
-          app.globalData.userInfo = null;
-          wx.removeStorageSync('token');
-          this.setData({
-            userInfo: null,
-            orderCount: {
-              pending: 0,
-              paid: 0,
-              shipped: 0
-            }
-          });
-          wx.showToast({
-            title: '已退出登录',
-            icon: 'success'
-          });
+          // 调用全局的退出登录方法，它会清理所有登录相关的数据
+          app.logout();
         }
       }
     });

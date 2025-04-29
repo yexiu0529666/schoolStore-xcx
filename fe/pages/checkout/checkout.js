@@ -382,7 +382,7 @@ Page({
       wx.hideLoading();
       this.setData({ isSubmitting: false });
       wx.showToast({
-        title: '网络错误，请重试',
+        title: err.message || '创建订单失败',
         icon: 'none'
       });
     });

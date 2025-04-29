@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 import string
 
@@ -101,7 +101,7 @@ def get_merchant_stats():
     获取商家统计数据
     """
     user_id = get_jwt_identity()
-    period = request.args.get('period', 'week')  # week, month, year
+    period = request.args.get('period', 'week')  # week, month, day, all
     
     # 查找商家信息
     merchant_info = MerchantInfo.query.filter_by(user_id=user_id).first()
@@ -116,11 +116,28 @@ def get_merchant_stats():
     on_sale_products = Product.query.filter_by(merchant_id=merchant_id, is_on_sale=True).count()
     
     # 获取所有订单项中包含该商家商品的订单ID
-    order_ids = db.session.query(OrderItem.order_id)\
+    order_ids_query = db.session.query(OrderItem.order_id)\
         .join(Product, OrderItem.product_id == Product.id)\
-        .filter(Product.merchant_id == merchant_id)\
-        .distinct().all()
+        .filter(Product.merchant_id == merchant_id)
     
+    # 根据时间段过滤订单
+    now = datetime.now()
+    if period == 'day':
+        start_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        order_ids_query = order_ids_query.join(Order, OrderItem.order_id == Order.id)\
+            .filter(Order.created_at >= start_time)
+    elif period == 'week':
+        start_time = now - timedelta(days=now.weekday())
+        start_time = start_time.replace(hour=0, minute=0, second=0, microsecond=0)
+        order_ids_query = order_ids_query.join(Order, OrderItem.order_id == Order.id)\
+            .filter(Order.created_at >= start_time)
+    elif period == 'month':
+        start_time = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        order_ids_query = order_ids_query.join(Order, OrderItem.order_id == Order.id)\
+            .filter(Order.created_at >= start_time)
+    # 'all' 不进行时间过滤
+    
+    order_ids = order_ids_query.distinct().all()
     order_ids = [id[0] for id in order_ids]
     
     # 根据订单ID获取订单

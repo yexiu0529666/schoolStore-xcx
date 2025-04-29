@@ -157,6 +157,7 @@ Page({
       })
       .catch(err => {
         console.error('获取优惠券网络错误:', err);
+        // 静默处理所有错误，包括401
         this.setData({
           coupons: [],
           isLoading: false
@@ -165,12 +166,6 @@ Page({
         // 停止下拉刷新和加载提示
         wx.stopPullDownRefresh();
         wx.hideLoading();
-        
-        // 显示错误提示
-        wx.showToast({
-          title: '获取优惠券失败',
-          icon: 'none'
-        });
       });
   },
   

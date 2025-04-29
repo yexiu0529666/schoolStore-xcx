@@ -252,32 +252,66 @@ Page({
         if (res.code) {
           userApi.wxLogin(res.code)
             .then(res => {
-              app.login(res.data.userInfo, res.data.token);
+              console.log('[WX_LOGIN] 登录成功，准备保存信息');
               
+              // 先清除待处理的优惠券分享，避免干扰跳转
+              app.globalData.pendingSharedCoupon = null;
+              
+              // 保存登录信息
+              app.globalData.isLogin = true;
+              app.globalData.userInfo = res.data.userInfo;
+              app.globalData.token = res.data.token;
+              app.globalData.isMerchant = res.data.userInfo.is_merchant || false;
+              
+              // 保存到本地存储
+              wx.setStorageSync('userInfo', res.data.userInfo);
+              wx.setStorageSync('token', res.data.token);
+              
+              console.log('[WX_LOGIN] 信息保存完成，准备跳转');
+              
+              // 显示成功提示
               wx.showToast({
                 title: '登录成功',
                 icon: 'success'
               });
               
+              // 使用reLaunch进行跳转
               setTimeout(() => {
+                console.log('[WX_LOGIN] 开始执行跳转');
                 if (this.data.redirect) {
-                  wx.redirectTo({
-                    url: this.data.redirect
+                  console.log('[WX_LOGIN] 跳转到重定向页面:', this.data.redirect);
+                  wx.reLaunch({
+                    url: this.data.redirect,
+                    success: () => {
+                      console.log('[WX_LOGIN] 重定向跳转成功');
+                    },
+                    fail: (err) => {
+                      console.error('[WX_LOGIN] 重定向跳转失败:', err);
+                    }
                   });
                 } else {
-                  wx.switchTab({
-                    url: '/pages/index/index'
+                  console.log('[WX_LOGIN] 跳转到首页');
+                  wx.reLaunch({
+                    url: '/pages/index/index',
+                    success: () => {
+                      console.log('[WX_LOGIN] 首页跳转成功');
+                    },
+                    fail: (err) => {
+                      console.error('[WX_LOGIN] 首页跳转失败:', err);
+                    }
                   });
                 }
-              }, 1500);
+              }, 1000);
             })
             .catch(err => {
+              console.error('[WX_LOGIN] 登录失败:', err);
               this.setData({ 
                 loginError: err.message || '登录失败，请稍后再试',
                 isLoading: false
               });
             });
         } else {
+          console.error('[WX_LOGIN] 获取微信code失败');
           this.setData({ 
             loginError: '微信登录失败，请稍后再试',
             isLoading: false
@@ -285,6 +319,7 @@ Page({
         }
       },
       fail: () => {
+        console.error('[WX_LOGIN] 微信登录失败');
         this.setData({ 
           loginError: '微信登录失败，请稍后再试',
           isLoading: false

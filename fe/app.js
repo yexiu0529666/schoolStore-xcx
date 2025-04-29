@@ -94,7 +94,7 @@ App({
           console.log("[REQUEST] 接收响应:", res.statusCode, res.data);
           
           if (res.statusCode === 401) {
-            // 未登录或token过期
+            // 未登录或token过期，只清除登录状态，不自动跳转
             console.log("[REQUEST] 收到401未授权响应");
             this.globalData.isLogin = false;
             this.globalData.isAdmin = false;
@@ -105,55 +105,7 @@ App({
             wx.removeStorageSync('userInfo');
             wx.removeStorageSync('adminInfo');
             
-            // 检查当前页面是否是管理员页面
-            const pages = getCurrentPages();
-            let currentPage = '';
-            if(pages.length > 0) {
-              const page = pages[pages.length - 1];
-              currentPage = page.route;
-              
-              // 如果是管理员页面，跳转到管理员登录
-              if(currentPage.includes('merchant/')) {
-                wx.showToast({
-                  title: '请先登录管理员账号',
-                  icon: 'none'
-                });
-                
-                setTimeout(() => {
-                  wx.navigateTo({
-                    url: '/pages/login/login'
-                  });
-                }, 1500);
-                
-                reject(new Error('管理员未登录或登录已过期'));
-                return;
-              }
-            }
-            
-            wx.showToast({
-              title: '请先登录',
-              icon: 'none'
-            });
-            
-            // 保存当前页面路径（非管理员页面情况）
-            if(pages.length > 0) {
-              const page = pages[pages.length - 1];
-              // 如果有参数，加上参数
-              if(Object.keys(page.options).length > 0) {
-                currentPage += '?';
-                for(let key in page.options) {
-                  currentPage += `${key}=${page.options[key]}&`;
-                }
-                currentPage = currentPage.substring(0, currentPage.length - 1);
-              }
-            }
-            
-            setTimeout(() => {
-              wx.navigateTo({
-                url: currentPage ? `/pages/login/login?redirect=/${currentPage}` : '/pages/login/login'
-              });
-            }, 1500);
-            
+            // 直接reject，让调用方处理401错误
             reject(new Error('未登录或登录已过期'));
           } else if (res.statusCode >= 200 && res.statusCode < 300) {
             resolve(res.data);

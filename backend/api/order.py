@@ -112,7 +112,7 @@ def create_order():
             
             # 检查库存
             if spec.stock < cart_item.quantity:
-                out_of_stock.append(f'{product.name} ({spec.name})')
+                out_of_stock.append(f'{product.name} ({spec.value})')
                 continue
             
             # 减少库存
@@ -227,7 +227,7 @@ def create_direct_order():
         
         # 检查库存
         if spec.stock < quantity:
-            return error_response(f'商品库存不足: {product.name} ({spec.name})')
+            return error_response(f'商品库存不足: {product.name} ({spec.value})')
         
         # 减少库存
         spec.stock -= quantity
