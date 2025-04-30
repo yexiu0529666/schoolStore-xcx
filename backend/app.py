@@ -79,6 +79,16 @@ def create_app(config_class=Config):
     # 配置JWT
     jwt = JWTManager(app)
     
+    # 配置 JWT 回调函数
+    @jwt.user_identity_loader
+    def user_identity_lookup(user):
+        return str(user)
+    
+    @jwt.user_lookup_loader
+    def user_lookup_callback(_jwt_header, jwt_data):
+        identity = jwt_data["sub"]
+        return User.query.get(int(identity))
+    
     # 导入API模块
     from api.user import user_bp
     from api.admin import admin_bp

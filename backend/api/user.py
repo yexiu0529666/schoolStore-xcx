@@ -74,7 +74,7 @@ def register():
         db.session.commit()
         
         # 生成JWT令牌
-        access_token = create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         
         # 删除验证码
         if phone:
@@ -126,7 +126,7 @@ def login():
         return error_response('密码错误')
     
     # 生成JWT令牌
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     
     return success_response({
         'token': access_token,
@@ -176,7 +176,7 @@ def wx_login():
             return error_response('用户创建失败，请稍后再试')
     
     # 生成JWT令牌
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     
     return success_response({
         'token': access_token,

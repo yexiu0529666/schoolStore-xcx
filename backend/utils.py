@@ -159,6 +159,7 @@ def merchant_required(fn):
         from models import User
         
         user_id = get_jwt_identity()
+        user_id = int(user_id)
         user = User.query.get(user_id)
         
         if not user or not user.is_merchant:
@@ -178,6 +179,7 @@ def admin_required(fn):
         from models import User
         
         user_id = get_jwt_identity()
+        user_id = int(user_id)
         user = User.query.get(user_id)
         
         if not user or not user.is_merchant:
@@ -197,6 +199,8 @@ def user_required(fn):
         from models import User
         
         user_id = get_jwt_identity()
+        # 将字符串类型的用户ID转换为整数
+        user_id = int(user_id)
         user = User.query.get(user_id)
         
         if not user:
