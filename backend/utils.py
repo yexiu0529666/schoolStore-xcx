@@ -158,7 +158,7 @@ def merchant_required(fn):
     def wrapper(*args, **kwargs):
         from models import User
         
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user_id = int(user_id)
         user = User.query.get(user_id)
         
@@ -178,7 +178,7 @@ def admin_required(fn):
     def wrapper(*args, **kwargs):
         from models import User
         
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user_id = int(user_id)
         user = User.query.get(user_id)
         
@@ -198,7 +198,7 @@ def user_required(fn):
     def wrapper(*args, **kwargs):
         from models import User
         
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         # 将字符串类型的用户ID转换为整数
         user_id = int(user_id)
         user = User.query.get(user_id)

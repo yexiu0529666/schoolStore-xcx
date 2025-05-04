@@ -13,7 +13,7 @@ review_bp = Blueprint('review', __name__)
 @user_required
 def submit_review():
     """提交商品评价"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     order_item_id = data.get('order_item_id')
@@ -146,7 +146,7 @@ def get_product_reviews(product_id):
 @user_required
 def get_my_reviews():
     """获取我的评价列表"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 10))
     
@@ -190,7 +190,7 @@ def get_my_reviews():
 @user_required
 def delete_review(review_id):
     """删除我的评价"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 查询评价
     review = ProductReview.query.get(review_id)

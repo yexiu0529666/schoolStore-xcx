@@ -60,7 +60,7 @@ def get_admin_info():
     """
     获取管理员信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 查找用户
     user = User.query.filter_by(id=user_id, is_merchant=True).first()

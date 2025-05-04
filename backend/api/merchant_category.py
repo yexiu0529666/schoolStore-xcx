@@ -14,7 +14,7 @@ def add_category():
     """
     添加商品分类
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 必要字段验证
@@ -55,7 +55,7 @@ def update_category():
     """
     更新商品分类
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 必要字段验证

@@ -26,7 +26,7 @@ def get_coupon_list():
         status = request.args.get('status', '')
         
         # 获取当前用户ID
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         
         # 获取用户已领取的优惠券ID列表
         received_coupon_ids = []
@@ -84,7 +84,7 @@ def get_user_coupons():
     """
     获取用户优惠券列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     status = request.args.get('status', '')  # 状态: 空=全部, unused=未使用, used=已使用, expired=已过期
     
     # 构建查询
@@ -139,7 +139,7 @@ def receive_coupon():
     """
     领取优惠券
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     coupon_id = request.get_json().get('id')
     # 查找优惠券
     coupon = Coupon.query.get(coupon_id)
@@ -193,7 +193,7 @@ def share_coupon():
     生成优惠券分享二维码
     """
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.get_json()
         coupon_id = data.get('coupon_id')
 
@@ -337,7 +337,7 @@ def receive_shared_coupon():
     接收分享的优惠券
     """
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.get_json()
         coupon_id = data.get('coupon_id')
         share_user_id = data.get('share_user_id')

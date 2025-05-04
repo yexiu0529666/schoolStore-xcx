@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timedelta
 import random
 import string
+from decimal import Decimal
 
 from models import db, User, MerchantInfo, Product, Order, OrderItem, Coupon, ProductImage, Favorite, UserCoupon, ProductSpec
 from utils import success_response, error_response, merchant_required, model_to_dict
@@ -14,7 +15,7 @@ def get_merchant_id():
     """
     辅助函数，获取当前商家ID
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     merchant_info = MerchantInfo.query.filter_by(user_id=user_id).first()
     
     if not merchant_info:
@@ -28,7 +29,7 @@ def get_merchant_info():
     """
     获取商家信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 查找用户和商家信息
     user = User.query.filter_by(id=user_id, is_merchant=True).first()
@@ -58,7 +59,7 @@ def update_merchant_info():
     """
     更新商家信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 查找商家信息
@@ -100,7 +101,7 @@ def get_merchant_stats():
     """
     获取商家统计数据
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     period = request.args.get('period', 'week')  # week, month, day, all
     
     # 查找商家信息
@@ -144,7 +145,7 @@ def get_merchant_stats():
     orders = Order.query.filter(Order.id.in_(order_ids)).all() if order_ids else []
     
     total_orders = len(orders)
-    total_sales = sum(order.payment_amount for order in orders)
+    total_sales = sum(Decimal(str(order.payment_amount)) for order in orders)
     
     # 计算客户数量(不同的用户ID数量)
     customer_ids = set()
@@ -167,15 +168,15 @@ def get_merchant_stats():
             orders_by_status[status] += 1
     
     # 计算平均订单金额
-    average_order_value = round(total_sales / total_orders, 2) if total_orders > 0 else 0
+    average_order_value = (total_sales / Decimal(str(total_orders))).quantize(Decimal('0.01')) if total_orders > 0 else Decimal('0.00')
     
     result = {
         'total_products': total_products,
         'on_sale_products': on_sale_products,
         'total_orders': total_orders,
-        'total_sales': total_sales,
+        'total_sales': float(total_sales),  # 转换为float用于JSON序列化
         'total_customers': total_customers,
-        'average_order_value': average_order_value,
+        'average_order_value': float(average_order_value),  # 转换为float用于JSON序列化
         'orders_by_status': orders_by_status,
         'period': period
     }
@@ -188,7 +189,7 @@ def get_merchant_orders():
     """
     获取商家订单列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     status = request.args.get('status', '')
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', 10, type=int)
@@ -280,7 +281,7 @@ def get_merchant_order_detail(order_id):
     """
     获取商家订单详情
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 查找商家信息
     merchant_info = MerchantInfo.query.filter_by(user_id=user_id).first()
@@ -347,7 +348,7 @@ def process_merchant_order():
     """
     处理商家订单
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     order_id = data.get('order_id')
@@ -413,7 +414,7 @@ def get_merchant_products():
     """
     获取商家商品列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', 10, type=int)
     keyword = request.args.get('keyword', '')
@@ -495,7 +496,7 @@ def add_product():
     """
     商家添加商品
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 验证必填字段
@@ -580,7 +581,7 @@ def update_product():
     """
     商家更新商品信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 尝试获取请求数据
     try:
@@ -737,7 +738,7 @@ def remove_product():
     """
     商家删除商品
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 验证必填字段

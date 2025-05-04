@@ -218,7 +218,7 @@ def get_user_info():
     """
     获取用户信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     
     return success_response(user.to_dict())
@@ -229,7 +229,7 @@ def update_user_info():
     """
     更新用户信息
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
     
     data = request.get_json()
@@ -260,7 +260,7 @@ def get_address_list():
     """
     获取用户地址列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 获取所有地址，默认地址排在前面
     addresses = Address.query.filter_by(user_id=user_id).order_by(Address.is_default.desc(), Address.id.desc()).all()
@@ -286,7 +286,7 @@ def add_address():
     """
     添加收货地址
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 验证必要参数
@@ -340,7 +340,7 @@ def update_address():
     """
     更新收货地址
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     # 验证必要参数
@@ -390,7 +390,7 @@ def delete_address():
     """
     删除收货地址
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     if 'id' not in data:
@@ -418,7 +418,7 @@ def set_default_address():
     """
     设置默认收货地址
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     if 'id' not in data:
@@ -450,7 +450,7 @@ def get_address_detail(address_id):
     """
     获取地址详情
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     address = Address.query.filter_by(id=address_id, user_id=user_id).first()
     
@@ -474,7 +474,7 @@ def get_favorite_list():
     """
     获取用户收藏列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 联合查询收藏和商品信息
     favorites = db.session.query(Favorite, Product)\
@@ -506,7 +506,7 @@ def add_favorite():
     """
     添加收藏
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     product_id = data.get('product_id')
@@ -548,7 +548,7 @@ def remove_favorite():
     """
     取消收藏
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     favorite_id = data.get('id')
@@ -575,7 +575,7 @@ def check_favorite():
     """
     检查商品是否已收藏
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     product_id = request.args.get('product_id')
     
     if not product_id:

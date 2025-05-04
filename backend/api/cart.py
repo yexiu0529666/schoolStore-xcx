@@ -12,7 +12,7 @@ def get_cart_list():
     """
     获取购物车列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 获取或创建购物车
     cart = Cart.query.filter_by(user_id=user_id).first()
@@ -76,7 +76,7 @@ def add_to_cart():
     """
     添加商品到购物车
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     product_id = data.get('product_id')
@@ -154,7 +154,7 @@ def update_cart_item():
     """
     更新购物车项
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     item_id = data.get('id')
@@ -221,7 +221,7 @@ def remove_cart_item():
     """
     删除购物车项
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     item_id = data.get('id')
@@ -256,7 +256,7 @@ def clear_cart():
     """
     清空购物车
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     # 获取购物车
     cart = Cart.query.filter_by(user_id=user_id).first()
@@ -279,7 +279,7 @@ def get_checkout_items():
     """
     获取结算商品项
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     cart_item_ids = data.get('cart_item_ids', [])
     

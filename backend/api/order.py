@@ -25,7 +25,7 @@ def create_order():
     """
     创建订单
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     cart_item_ids = data.get('cart_item_ids', [])
@@ -184,7 +184,7 @@ def create_direct_order():
     """
     直接购买创建订单
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     
     product_id = data.get('product_id')
@@ -307,7 +307,7 @@ def get_order_list():
     """
     获取订单列表
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     status = request.args.get('status')
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 10))
@@ -397,7 +397,7 @@ def get_order_detail(order_id):
     """
     获取订单详情
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     order = Order.query.filter_by(id=order_id, user_id=user_id).first()
     
@@ -455,7 +455,7 @@ def cancel_order(order_id):
     """
     取消订单
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     order = Order.query.filter_by(id=order_id, user_id=user_id).first()
     
@@ -511,7 +511,7 @@ def pay_order(order_id):
     """
     支付订单（模拟支付）
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     order = Order.query.filter_by(id=order_id, user_id=user_id).first()
     
@@ -543,7 +543,7 @@ def confirm_order(order_id):
     """
     确认收货
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     
     order = Order.query.filter_by(id=order_id, user_id=user_id).first()
     order_item = OrderItem.query.filter_by(order_id=order.id).first()
@@ -574,7 +574,7 @@ def apply_refund(order_id):
     """
     用户申请退款
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     refund_reason = data.get('refund_reason', '')
     
@@ -606,7 +606,7 @@ def confirm_refund(order_id):
     """
     商家确认退款
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
     action = data.get('action', 'confirm')  # confirm或reject
     merchant_remark = data.get('remark', '')
